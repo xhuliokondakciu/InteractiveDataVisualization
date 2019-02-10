@@ -1,0 +1,60 @@
+﻿@model IEnumerable<KGTMachineLearningWeb.Models.Identity.ApplicationUser>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <button class="btn btn-primary" id="create-user-button">Create new user</button>
+</p>
+
+<div id="userListContainer">
+    <table class="display hover compact" id="userTable">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Username
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Roles
+                </th>
+                <th>
+                    Delete
+                </th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        const usersAPI = {
+            getUsersUrl: "@Url.Action("GetUsers", new { area = "Admin"})",
+            editUserUrl: "@Url.Action("Edit",new { area = "Admin"})",
+            deleteUserUrl: "@Url.Action("Delete",new { area = "Admin"})",
+            getUserInfoUrl: "@Url.Action("Details", new { area = "Admin"})",
+            getRolesUrl: "@Url.Action("GetRoles", new { area = "Admin"})",
+            createUserUrl: "@Url.Action("Create", new { area = "Admin"})",
+        };
+
+        const selectors = {
+            userTableSelector: "#userTable",
+            deleteUserButtonSelector:".delete-user-button",
+            createUserModalSelector: "#create-user-modal",
+            createUserButtonSelector: "#create-user-button"
+        };
+
+        const userService = new UserService();
+        const usersManager = new UserManager(selectors,userService);
+
+        usersManager.init();
+    </script>
+}

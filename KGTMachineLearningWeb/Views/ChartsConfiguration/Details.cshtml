@@ -1,0 +1,74 @@
+﻿@model KGTMachineLearningWeb.Models.ChartConfiguration.ChartsConfiguration
+
+@{
+    ViewBag.Title = "Details for chart config " + Model.Title;
+}
+
+@Styles.Render("~/Content/codemirror")
+
+<div class="row">
+    <div class="card bg-light o-hidde" id="content-body" style="width:100%">
+        <div class="card-body pt-2">
+            <h3>Details for chart config @Model.Title</h3>
+
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
+
+                    <dt>
+                        Processor name
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Processor.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ConfigurationXml)
+                    </dt>
+
+                    <dd>
+                        @Html.TextAreaFor(model => model.ConfigurationXml, new { id = "configXml" })
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsSystem)
+                        <br/>
+                        <small>System configuraitons are managed by the administrator</small>
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.IsSystem)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/codemirror")
+
+
+
+    <script>
+        $(function () {
+            document.getElementById("configXml").value = vkbeautify.xml(document.getElementById("configXml").value);
+            let configXml = CodeMirror.fromTextArea(document.getElementById("configXml"), {
+                mode: "xml",
+                lineNumbers: true,
+                readOnly: true
+            });
+        })
+    </script>
+}

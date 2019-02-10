@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row pt-3">
+    <div class="col-12 col-md-12">
+        <div id="chart-container">
+            <div class="row">
+                <div class="col-12 col-md-12 text-center">
+                    <h2>Retriving data...</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@using Highsoft.Web.Mvc.Charts
+@section scripts{
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/map.js"></script>
+    <script src="https://code.highcharts.com/modules/boost-canvas.js"></script>
+    <script src="https://code.highcharts.com/modules/boost.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    @Scripts.Render("~/bundles/toastr")
+    @Scripts.Render("~/bundles/charts")
+    <script>
+        $(function () {
+            let chartsOptions = [];
+            @foreach (var chartOptions in ViewBag.chartsOptions as IEnumerable<Highcharts>)
+            {
+                @:chartsOptions.push(@Html.Highsoft().GetJsonOptions(chartOptions));
+            }
+
+            SyncCharts.createCharts("#chart-container", chartsOptions, 950)
+        })
+    </script>
+}

@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="card bg-light o-hidde" id="content-body" style="width:100%">
+        <div class="card-body pt-2">
+            <h2>Charts configurations</h2>
+            <div class="pb-2 pt-2">
+                @Html.ActionLink("Create", "Create", null, new { @class = "btn btn-primary " })
+            </div>
+
+            <div id="chartsConfigListContainer">
+                <table class="display hover compact" id="chartsConfigTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                Title
+                            </th>
+                            <th>
+                                Processor
+                            </th>
+                            <th>
+                                Is system
+                            </th>
+                            <th>
+                                Details
+                            </th>
+                            <th>
+                                Edit
+                            </th>
+                            <th>
+                                Delete
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script>
+        let table;
+        $(function () {
+
+            table = $("#chartsConfigTable").DataTable({
+
+            processing: true,
+            serverSide: true,
+            orderMulti: false,
+            ordering:false,
+            pageLength: 10,
+            order: [[1]],
+            searching:false,
+            ajax: {
+                url: "@Url.Action("ChartsConfig", new { area = ""})",
+                type: "POST",
+                datatype: "json"
+            },
+
+            columns: [
+                { data: "title", name:"title",  autoWidth: true },
+                { data: "processor.name", name: "Processor", autoWidth: true },
+                { data: "isSystem", name: "Is system", autoWidth: true },
+                {
+                    data: null,
+                    render: (data, type, row) => {
+
+                        return `<a class="btn btn-outline-info config-details-button" href="@Url.Action("Details", new { area = "" })/${data.id}">Details</a>`;
+                    }
+                },
+                {
+                    data: null,
+                    render: (data, type, row) => {
+                        if (!data.isSystem || "@User.IsInRole("Admin").ToString()" === "True") {
+                            return `<a class="btn btn-outline-primary config-edit-button" href="@Url.Action("Edit", new { area = "" })/${data.id}">Edit</a>`;
+                        }
+                        return null;
+                    }
+                },
+                {
+                    data: null,
+                    render: (data, type, row) => {
+                        if (!data.isSystem || "@User.IsInRole("Admin").ToString()" === "True") {
+                            return `<a class="btn btn-outline-danger delete-config-button" data-id='${data.id}' data-title='${data.title}'>Delete</a>`;
+                        }
+                        return null;
+
+                    }
+                }
+
+            ]
+
+            });
+
+            registerDeleteProcessButtonClick();
+        })
+
+        function registerDeleteProcessButtonClick() {
+            $("#chartsConfigTable").on("click",".delete-config-button", (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                let processTitle = $(e.target).data("title");
+                let processId = $(e.target).data("id");
+                if (confirm(`Are you sure you want to delete config with title: "${processTitle}"?`)) {
+
+                    $.ajax({
+                        url: "@Url.Action("Delete")",
+                        method: "POST",
+                        data: { id: processId },
+                        success: function () {
+                            if (table) {
+                                table.ajax.reload(null, false);
+                            }
+                        },
+                        error: function (e) {
+                            console.error(e);
+                        }
+                    });
+
+                }
+            });
+        }
+
+    </script>
+}

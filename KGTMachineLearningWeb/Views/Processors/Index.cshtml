@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="card bg-light o-hidde" id="content-body" style="width:100%">
+        <div class="card-body pt-2">
+            <h2>Processors Configurations</h2>
+            <div class="pb-2 pt-2">
+                @Html.ActionLink("Create", "Create", null, new { @class = "btn btn-primary " })
+            </div>
+            
+            <div id="processorListContainer">
+                <table class="display hover compact" id="processorsTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Path
+                            </th>
+                            <th>
+                                Extra parameters
+                            </th>
+                            <th>
+                                Edit
+                            </th>
+                            <th>
+                                Delete
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        let table;
+        $(function () {
+
+            table = $("#processorsTable").DataTable({
+
+            processing: true,
+            serverSide: true,
+            orderMulti: false,
+            ordering:false,
+            pageLength: 10,
+            order: [[1]],
+            searching:false,
+            ajax: {
+                url: "@Url.Action("Processors", new { area = ""})",
+                type: "POST",
+                datatype: "json"
+            },
+
+            columns: [
+                { data: "name", name:"Name",  autoWidth: true },
+                { data: "path", name: "Path", autoWidth: true },
+                { data: "extraParameters", name: "Extra Parameters",  autoWidth: true },
+                {
+                    data: null,
+                    render: (data, type, row) => {
+
+                        return `<a class="btn btn-outline-info process-edit-button" href="@Url.Action("Edit", new { area = "" })/${data.id}">Edit</a>`;
+                    }
+                },
+                {
+                    data: null,
+                    render: (data, type, row) => {
+
+                        return `<a class="btn btn-outline-danger delete-process-button" data-id='${data.id}' data-name='${data.name}'>Delete</a>`;
+                    }
+                }
+
+            ]
+
+            });
+
+            registerDeleteProcessButtonClick();
+        })
+
+        function registerDeleteProcessButtonClick() {
+            $("#processorsTable").on("click",".delete-process-button", (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                let processId = $(e.target).data("id");
+                let processName = $(e.target).data("name");
+                if (confirm(`Are you sure you want to delete process with name: "${processName}"? All the releated charts configurations with this processor will be deleted as well.`)) {
+
+                    $.ajax({
+                        url: "@Url.Action("Delete")",
+                        method: "POST",
+                        data: { id: processId },
+                        success: function () {
+                            if (table) {
+                                table.ajax.reload(null, false);
+                            }
+                        },
+                        error: function (e) {
+                            console.error(e);
+                        }
+                    });
+
+                }
+            });
+        }
+
+    </script>
+}

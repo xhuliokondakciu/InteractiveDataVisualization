@@ -1,0 +1,13 @@
+﻿@model KGTMachineLearningWeb.Models.Workspace.CategoryContentModel
+
+
+@foreach (var category in Model.Categories)
+{
+    Html.RenderPartial("_CategoryCard", category);
+}
+
+@foreach (var chart in Model.Charts)
+{
+    Html.RenderPartial("_ChartObjectCard", chart);
+}
+

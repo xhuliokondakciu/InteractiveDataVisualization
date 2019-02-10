@@ -1,0 +1,51 @@
+﻿<div class="modal fade" id="upload-chart-data-modal" tabindex="-1" role="dialog" aria-labelledby="upload-chart-data-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="upload-chart-data-label">Upload chart data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("UploadChartData", "Chart", FormMethod.Post, new
+            {
+                @class = "form-horizontal",
+                role = "form",
+                id = "upload-chart-data-form",
+                enctype = "multipart/form-data"
+            }))
+            {
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="upload-category-name" class="col-form-label">Category:</label>
+                        <input id="upload-category-name" disabled type="text" class="form-control" value=""/>
+                        <input type="hidden" name="CategoryId" id="chart-file-category-id" />
+                    </div>
+                    <div class="form-group">
+                        <label for="chart-title" class="col-form-label">Title:</label>
+                        <input type="text" class="form-control" id="chart-title-file-input" required name="Title" />
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                        </div>
+                        <div class="custom-file">
+                            <label class="custom-file-label " for="inputGroupFile01" style="overflow:hidden">Choose file</label>
+                            <input name="chart-file-input" type="file" class="custom-file-input" id="chart-file-input" aria-describedby="inputGroupFileAddon01">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label" for="chartConfig">Chart configuration</label>
+                        @Html.DropDownList("chartConfig", ViewBag.ChartConfigs as IEnumerable<SelectListItem>, new { @class = "form-control", id = "chartConfig" })
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" id="upload-data-modal-button" value="Upload">
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,238 @@
+﻿
+
+body > .container {
+    padding-top:2rem;
+}
+
+
+#categoriesTreeColumn , #categoriesContentColumn {
+    overflow: auto;
+}
+
+.crop-text-3 {
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    -ms-box-orient: vertical;
+}
+
+.breadcrumb {
+    min-height: 52px;
+}
+
+/**** Context menu css start ****/
+
+.folder-thumbnail-small {
+    background-image: url("icons/folder-48.png");
+    background-size: 1em;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.chart-thumbnail-small {
+    /*background-image: url("icons/line-chart-48.png");*/
+    background-size: 1em;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.context-menu-icon {
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.add-folder-icon {
+    background-image: url("icons/add-folder-48.png");
+}
+
+.rename-folder-icon {
+    background-image: url("icons/rename-48.png");
+}
+
+.delete-folder-icon {
+    background-image: url("icons/trash-48.png");
+}
+
+.copy-icon {
+    background-image: url("icons/copy-48.png");
+}
+
+.paste-icon {
+    background-image: url("icons/paste-48.png");
+}
+
+.add-chart-icon {
+    background-image: url("icons/add-line-chart-48.png");
+}
+
+/**** Context menu css end ****/
+
+/**** Grid view css start ****/
+
+.grid-view-icon {
+    background-image: url("icons/grid-view-48.png");
+    background-size: 1em;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.folder-icon {
+    background-image: url("icons/folder-96.png");
+    background-size: 5em;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.user-icon {
+    background-image: url("icons/user-folder-96.png");
+    background-size: 5em;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.everyone-icon {
+    background-image: url("icons/user-groups-96.png");
+    background-size: 5em;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.category-row td.folder-icon {
+    background-image: url("icons/folder-48.png");
+    background-size: 1em;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.category-row td.user-icon {
+    background-image: url("icons/user-folder-48.png");
+    background-size: 1em;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.category-row td.everyone-icon {
+    background-image: url("icons/user-groups-48.png");
+    background-size: 1em;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.chart-thumbnail-big {
+    /*background-image: url("icons/line-chart-96.png");*/
+    background-size: 5em;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.category-card, .chart-object-card {
+    cursor: pointer;
+    text-align: center;
+    border: 0;
+    background-color: transparent;
+    margin-right: 5px;
+    margin-left: 5px;
+    width: 100px;
+}
+
+    .category-card:hover, .chart-object-card:hover {
+        background-color: #e2e2e2!important;
+    }
+
+    .category-card .card-body, .chart-object-card .card-body {
+        height: 70px;
+    }
+
+    .category-card .card-footer, .chart-object-card .card-footer {
+        background-color: transparent;
+        padding: 0;
+    }
+
+.ui-draggable-dragging .card-footer {
+    width: 5em;
+    -webkit-line-clamp: 1 !important;
+}
+
+/**** Categories content card css end ****/
+
+/**** Category contents list css start *****/
+
+.list-view-icon {
+    background-image: url("icons/list-view-48.png");
+    background-size: 1em;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#categoryContentsTable > tbody > tr > td:first-child {
+    min-width: 2em;
+}
+
+#categoryContentsTable tr {
+    cursor: pointer;
+}
+
+#categoryContentsTable_wrapper {
+    width: 100%;
+}
+
+    #categoryContentsTable_wrapper > table {
+        width: 100% !important;
+    }
+
+#categoryContentsTable {
+    border-bottom: 0;
+}
+
+.title-cell {
+    padding-right: 6px;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
+    background-color: #e2e2e2 !important;
+}
+
+.chart-selected {
+    background-color: #bbbdbee3 !important;
+    border-color: #e2e2e2 !important;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+    border-right: 1px solid #111;
+}
+
+table.dataTable thead th:last-child, table.dataTable thead td:last-child {
+    border-right: 0;
+}
+
+    /**** Category contents list css end *****/
+    @media (max-width: 576px) {
+        #categoriesTreeColumn, #categoriesContentColumn {
+            -ms-flex: 0 0 100%;
+            flex: 0 0 100%;
+            width: 100%;
+            margin-bottom: 1rem;
+            height: auto !important;
+        }
+    }
+    /**** Split gutter css start ****/
+    .split, .gutter.gutter-horizontal {
+    float: left;
+}
+
+.gutter.gutter-horizontal {
+    cursor: ew-resize;
+}
+
+/**** Split gutter css end ****/

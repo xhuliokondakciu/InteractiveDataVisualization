@@ -1,0 +1,169 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="card bg-light o-hidde" id="content-body" style="width:100%">
+        <div class="card-body pt-2">
+            <h2>Index</h2>
+
+            <div id="jobListContainer">
+                <table class="display hover compact" id="jobsTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                File to process
+                            </th>
+                            <th>
+                                User creator
+                            </th>
+                            <th>
+                                Job start time
+                            </th>
+                            <th>
+                                Job end time
+                            </th>
+                            <th>
+                                Job duration
+                            </th>
+                            <th>
+                                Details
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                Download Exp Data
+                            </th>
+                            <th>
+                                Delete
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        let table;
+        $(function () {
+             const jobsAPI = {
+            getJobsUrl: "@Url.Action("Jobs", new { area = ""})",
+            getDetailsRul: "@Url.Action("Details", new { area = ""})"
+        };
+
+        table = $("#jobsTable").DataTable({
+
+            processing: true,
+            serverSide: true,
+            orderMulti: false,
+            ordering:false,
+            pageLength: 10,
+            order: [[1]],
+            searching:false,
+            ajax: {
+                url: "@Url.Action("Jobs", new { area = ""})",
+                type: "POST",
+                datatype: "json"
+            },
+
+            columns: [
+                { data: "fileToProcess", name: "File to process", autoWidth: true,className:"dt-body-center" },
+                { data: "userCreator", name: "User creator", autoWidth: true,className:"dt-body-center" },
+                { data: "jobStartTime", name: "Job start time", autoWidth: true,className:"dt-body-center" },
+                { data: "jobEndTime", name: "Job end time", autoWidth: true,className:"dt-body-center" },
+                { data: "jobDuration", name: "Job duration", autoWidth: true,className:"dt-body-center" },
+                {
+                    data: null,
+                    render: (data, type, row) => {
+
+                        return `<a class="btn btn-outline-danger job-detail-secondary" href="@Url.Action("Details", new { area = "" })/${data.id}">Details</a>`;
+                    },
+                    className: "dt-body-center"
+                },
+                {
+                    data: null,
+                    name: "Status",
+                    autoWidth: true,
+                    render: (data, type, row) => {
+                        let statusClass;
+                        switch (data.status.toLocaleLowerCase()) {
+                            case "processed":
+                                statusClass = "text-success";
+                                break;
+                            case "processedwitherror":
+                                statusClass = "text-danger";
+                                break;
+                            case "processing":
+                                statusClass = "text-primary";
+                                break;
+                            default:
+                                break;
+                        }
+
+                        return `<span class="${statusClass}">${data.status}</span>`;
+                    },
+                    className: "dt-body-center"
+                },
+                {
+                    data: null,
+                    name: "Download Exp Data",
+                    render: (data, type, row) => {
+                        if (data.status.toLocaleLowerCase() == "processed") {
+                            return `<a href="@Url.Action("GetExportedData", new { area = "" })/${data.id}" class="btn btn-outline-primary">Download</a>`;
+                        } else {
+                            return "";
+                        }
+                        
+                    },
+                    className: "dt-body-center"
+                }
+                ,
+                {
+                    data: null,
+                    render: (data, type, row) => {
+
+                        return `<a class="btn btn-outline-danger delete-job-button" data-id='${data.id}'>Delete</a>`;
+                    },
+                    className: "dt-body-center"
+                }
+
+            ]
+
+            });
+
+            registerDeleteJobButtonClick();
+        })
+
+        function registerDeleteJobButtonClick() {
+            $("#jobsTable").on("click",".delete-job-button", (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    let jobId = $(e.target).data("id");
+                if (confirm(`Are you sure you want to delete job with id: "${jobId}"?`))
+                        deleteJob(jobId);
+                });
+        }
+
+        function deleteJob(jobId) {
+            $.ajax({
+                url: "@Url.Action("Delete")",
+                method: "POST",
+                data: { jobId: jobId },
+                success: function () {
+                    if (table) {
+                        table.ajax.reload(null, false);
+                    }
+                },
+                error: function (e) {
+                    console.error(e);
+                }
+            });
+        }
+
+    </script>
+}

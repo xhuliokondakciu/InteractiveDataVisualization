@@ -1,0 +1,117 @@
+﻿ul.fancytree-container {
+    background-color: transparent;
+    border: none;
+    font-size: 12pt;
+    color: dodgerblue;
+}
+
+.chart-line:before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f201";
+}
+
+.chart-pie:before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f200";
+}
+
+span.fancytree-custom-icon {
+    background-size: 16px;
+}
+
+span.fancytree-node.fancytree-folder > span.folder-icon {
+    background-position: 0 0;
+    background-image: url("icons/folder-96.png");
+}
+
+span.fancytree-node.fancytree-folder.fancytree-expanded > span.folder-icon {
+    background-position: 0 0;
+    background-image: url("icons/opened-folder-96.png");
+}
+
+span.fancytree-node.fancytree-folder > span.user-icon {
+    background-position: 0 0;
+    background-image: url("icons/user-folder-48.png");
+}
+
+span.fancytree-node.fancytree-folder > span.everyone-icon {
+    background-position: 0 0;
+    background-image: url("icons/user-groups-48.png");
+}
+
+span.fancytree-node.fancytree-folder > span.share-icon {
+    background-position: 0 0;
+    background-image: url("icons/share-48.png");
+}
+
+
+ul.fancytree-container:focus {
+    outline-color: transparent;
+}
+
+.fancytree-drop-reject {
+    cursor: no-drop !important;
+}
+
+    .fancytree-drop-reject .fancytree-title {
+        cursor: no-drop !important;
+    }
+
+.fancytree-plain span.fancytree-node:hover {
+    background-color: #e2e2e2 !important;
+    border-color: #e2e2e2 !important;
+}
+    .fancytree-plain span.fancytree-node:hover span.fancytree-title {
+        background-color: transparent !important;
+        border-color: transparent !important;
+    }
+
+.fancytree-plain.fancytree-container.fancytree-treefocus span.fancytree-active,
+.fancytree-plain.fancytree-container.fancytree-treefocus span.fancytree-selected {
+    background-color: #bbbdbee3 !important;
+    border-color: #e2e2e2 !important;
+}
+
+    .fancytree-plain.fancytree-container.fancytree-treefocus span.fancytree-active span.fancytree-title,
+    .fancytree-plain.fancytree-container.fancytree-treefocus span.fancytree-selected span.fancytree-title {
+        background-color: transparent !important;
+        border-color: transparent !important;
+    }
+
+/**** Drop market css start ****/
+
+/*#fancytree-drop-marker {
+    background-image: url("icons/icons.gif");
+    background-position: 0px -128px;
+}
+
+    #fancytree-drop-marker.fancytree-drop-after,
+    #fancytree-drop-marker.fancytree-drop-before {
+        background-position: 0px -144px;
+    }
+
+    #fancytree-drop-marker.fancytree-drop-copy {
+        background-position: -64px -128px;
+    }
+
+    #fancytree-drop-marker.fancytree-drop-move {
+        background-position: -32px -128px;
+    }
+
+    #fancytree-drop-marker.fancytree-rtl {
+        background-image: url("icons/icons-rtl.gif");
+    }*/
+
+/**** Drop market css end ****/
