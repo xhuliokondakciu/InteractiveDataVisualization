@@ -24,13 +24,13 @@ If thumbnails are not being created after deployment check if the highcharts-exp
 
 ## How to fix Highcharts trial expired
 
-### On Web server
+### Fix for highcharts export server
 
 npm uninstall highcharts-export-server -g
 npm install highcharts-export-server -g
 iisreset
 
-### On development machine
+### Fix for highcharts .NET wrapper
 
 During development period the trial version of Highcharts is used. This will be changes later to a licensed version after the development is done. But during the meatime the highcharts .NET wrapper will have its trial expire after one month of usage. This issue can be detected if after uploading a file to be processed on the workspace the thumbnail of the chart is empty and the chart can't be opend. Opening the the developer tools of the browser and checking the errors will also confirm this. On the request response when opening the chart you should see the message that the trial has expired. To fix this issue this step should be followed:
 
@@ -58,7 +58,48 @@ During development period the trial version of Highcharts is used. This will be 
 
 ## Deployment
 
-The application is deployed as a normal ASP.NET web page.
+### Creating the database
+
+The project uses Entity Framework code first approach for managing the database. To create the database first put the correct connection string into the project Web.config in the root of KGTMachineLearningWeb.
+
+Then open the project into Visual Studio and open Package Manager Console. In the console select as default project KGTMachineLearningWeb.Context. Into the console type **update-database** and press enter.
+
+![Package manager console in Visual Studio](./PackageManagerConsole.png)
+
+This will create the database based on the connection string and also create all the tables. It will also run the seed method which will add some initial data into the database.
+
+![Package manager console in Visual Studio](./PackageManagerConsoleAfterUpdate.png)
+
+### Updating the database schema ####
+
+As mentioned previously the project uses the code first approach in creating the database schema. The table models are all saved in project **KGTMachineLearningWeb.Models**. 
+
+To add a new table create a new class in this project and than go to the class KGTContext in **KGTMachineLearningWeb.Context** and add property
+
+```
+public DbSet<MyNewTable> MyNewTable { get; set; }
+```
+
+To update an existing table just change the coresponding Model for the table.
+
+After adding new models or updating existing one to update the database open again Package Manager Console in visual studio and type
+
+```
+add-migration MigrationName
+```
+Followed by
+```
+update-database
+```
+This will first create a database migration which will add the code for adding or updating tables. Than the update-database command will apply the new changes to the database.
+
+The code will run fine at first and update the database schema but it will show an error message later when it tries to seed the database, some of the data that the seed tries to add already exist if it was run when the database was created. Ignore this error or comment everything inside the _Seed_ method in the class _Configuration_. 
+
+Congratulations now you have a database for the project!
+
+### Deploying the application ###
+
+The application is deployed as a normal ASP.NET MVC web application.
 
 ## Authors
 

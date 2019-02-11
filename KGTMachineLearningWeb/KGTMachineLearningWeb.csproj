@@ -503,6 +503,7 @@
     <Content Include="ExportedDataSample\pmInputs" />
     <Content Include="ExportedDataSample\pmOutputs" />
     <Content Include="ExportedDataSample\rbStreamWithDesiredPredictions" />
+    <Content Include="Areas\Admin\Views\User\Modals\_ResetPasswordModal.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\MLWeb.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />

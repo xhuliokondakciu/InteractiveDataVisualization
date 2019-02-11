@@ -38,7 +38,14 @@ namespace KGTMachineLearningWeb.Domain.Services
         {
             get
             {
-                return HttpContext.Current.Server.MapPath(System.Configuration.ConfigurationManager.AppSettings["ChartDataPath"]);
+                var chartDataPath = System.Configuration.ConfigurationManager.AppSettings["ChartDataPath"];
+
+                if (Path.IsPathRooted(chartDataPath))
+                {
+                    return chartDataPath;
+                }
+
+                return HttpContext.Current.Server.MapPath(chartDataPath);
             }
         }
 

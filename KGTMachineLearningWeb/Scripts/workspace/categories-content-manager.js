@@ -444,6 +444,17 @@
             });
     }
 
+    dispatchLoadCategoryContentsEvent(categoryId) {
+        const loadCategoryEvent = new CustomEvent('loadCategoryContents', {
+            bubbles: true,
+            detail: {
+                categoryId: categoryId
+            }
+        });
+
+        document.querySelector(this.treeContainerSelector).dispatchEvent(loadCategoryEvent);
+    }
+
     copyChartObject(chartObjectToCopyId, parentCategoryId) {
         this.categoriesService.sendCopyChartObjectRequest(chartObjectToCopyId, parentCategoryId)
             .done(() => {

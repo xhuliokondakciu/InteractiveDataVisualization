@@ -29,6 +29,9 @@
                 <th>
                     Delete
                 </th>
+                <th>
+                    Reset password
+                </th>
             </tr>
         </thead>
     </table>
@@ -43,6 +46,7 @@
             getUserInfoUrl: "@Url.Action("Details", new { area = "Admin"})",
             getRolesUrl: "@Url.Action("GetRoles", new { area = "Admin"})",
             createUserUrl: "@Url.Action("Create", new { area = "Admin"})",
+            resetPasswordUrl: "@Url.Action("ResetPassword", new { area = "Admin"})"
         };
 
         const selectors = {

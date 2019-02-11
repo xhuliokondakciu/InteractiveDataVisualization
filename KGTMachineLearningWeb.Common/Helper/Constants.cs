@@ -45,7 +45,16 @@ namespace KGTMachineLearningWeb.Common.Helper
         /// <returns>Created chart data directory path</returns>
         public static string CreateChartDataDirectory(string userId)
         {
-            var rootPath = HttpContext.Current.Server.MapPath(System.Configuration.ConfigurationManager.AppSettings["ChartDataPath"]);
+            string chartDataPath = string.Empty;
+            if (Path.IsPathRooted(System.Configuration.ConfigurationManager.AppSettings["ChartDataPath"]))
+            {
+                chartDataPath = System.Configuration.ConfigurationManager.AppSettings["ChartDataPath"];
+            }
+            else
+            {
+                chartDataPath = HttpContext.Current.Server.MapPath(System.Configuration.ConfigurationManager.AppSettings["ChartDataPath"]);
+            }
+            var rootPath = chartDataPath;
             string dir = Path.Combine(rootPath, $"User_{userId}", Guid.NewGuid().ToString());
             Directory.CreateDirectory(dir);
             return dir;

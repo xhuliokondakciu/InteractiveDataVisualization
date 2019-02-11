@@ -423,7 +423,7 @@ var SyncCharts = (function ($, H) {
         var debouncedChartWindowResize = KGT.Helper.debounce((e) => {
             if (!data.listenForResize) return;
 
-            data.charts.forEach(chartToResize => {
+            data.charts.forEach((chartToResize,index) => {
                 data.listenForResize = false;
                 const cWindow = chartToResize.container.ownerDocument.defaultView || chart.container.ownerDocument.parentWindow;
                 if (cWindow.outerWidth !== e.target.outerWidth || cWindow.outerHeight <= e.target.outerHeight - 10 || cWindow.outerHeight >= e.target.outerHeight + 10) {
@@ -431,8 +431,6 @@ var SyncCharts = (function ($, H) {
                 }
                 chartToResize.reflow();
             });
-
-            data.listenForResize = true;
         }, 500, false);
 
         var prepareChartOptions = function (chartOption) {

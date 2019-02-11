@@ -35,15 +35,38 @@
         });
     }
 
+    sendGetResetPasswordViewRequest() {
+        return $.ajax({
+            url: usersAPI.resetPasswordUrl,
+            type: "GET",
+            dataType: "html",
+            error: (error) => {
+                this._onError(error);
+            }
+        });
+    }
+
     sendCreateUserRequest(userData) {
         return $.ajax({
             url: usersAPI.createUserUrl,
             type: 'POST',
             data: userData,
-            dataType:"html",
+            dataType: "html",
             error: (error) => {
-                this._onError("Couldn't get roles", error);
+                this._onError("Couldn't create user", error);
             }
-        })
+        });
+    }
+
+    sendResetPasswordRequest(userData) {
+        return $.ajax({
+            url: usersAPI.resetPasswordUrl,
+            type: 'POST',
+            data: userData,
+            dataType: "html",
+            error: (error) => {
+                this._onError("Couldn't reset password", error);
+            }
+        });
     }
 }

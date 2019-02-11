@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http.Results;
 using System.Web.Mvc;
@@ -16,6 +17,8 @@ using KGTMachineLearningWeb.Models;
 using KGTMachineLearningWeb.Models.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security.DataProtection;
 using static KGTMachineLearningWeb.Common.Enum.Enumerators;
 
 namespace KGTMachineLearningWeb.Areas.Admin.Controllers
@@ -27,12 +30,15 @@ namespace KGTMachineLearningWeb.Areas.Admin.Controllers
         private readonly IRoleDomain _roleDomain;
         private readonly ICategoryDomain _categoryDomain;
         private readonly UserManager<ApplicationUser> _userManager;
-        public UserController(IUserDomain userDomain, IRoleDomain roleDomain, ICategoryDomain categoryDomain, UserManager<ApplicationUser> userManager)
+        private readonly IUserStore<ApplicationUser> _userStore;
+
+        public UserController(IUserDomain userDomain, IRoleDomain roleDomain, ICategoryDomain categoryDomain, UserManager<ApplicationUser> userManager, IUserStore<ApplicationUser> userStore)
         {
             this._userDomain = userDomain;
             this._roleDomain = roleDomain;
             this._categoryDomain = categoryDomain;
             this._userManager = userManager;
+            _userStore = userStore;
         }
 
         // GET: User
@@ -173,6 +179,52 @@ namespace KGTMachineLearningWeb.Areas.Admin.Controllers
             });
 
             return PartialView("Modals/_CreateUserModal", userToCreate);
+        }
+
+        [HttpGet]
+        public ActionResult ResetPassword()
+        {
+            return PartialView("Modals/_ResetPasswordModal");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword([Bind(Include = "UserName,Password,ConfirmPassword")] ResetPassword model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var user = _userDomain.Get(u => u.UserName == model.UserName).FirstOrDefault();
+                    if (user == null)
+                    {
+                        // Don't reveal that the user does not exist
+                        return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                    }
+                    var hashedPassword = _userManager.PasswordHasher.HashPassword(model.Password);
+                    user.PasswordHash = hashedPassword;
+                    _userDomain.Update(user);
+
+                    //var token = _userManager.GeneratePasswordResetToken(user.Id);
+                    //var result = _userManager.ResetPassword(user.Id, token, model.Password);
+
+                    ViewBag.Success = true;
+                    return new HttpStatusCodeResult(HttpStatusCode.Created, $"Password reseted successfully");
+
+                }
+                catch (InvalidOperationException)
+                {
+
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Password couldn't be reseted");
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+
+            }
+
+            return PartialView("Modals/_ResetPasswordModal", model);
         }
 
         // GET: Admin/User/Edit/5
