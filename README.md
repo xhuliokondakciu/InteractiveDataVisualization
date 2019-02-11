@@ -64,11 +64,11 @@ The project uses Entity Framework code first approach for managing the database.
 
 Then open the project into Visual Studio and open Package Manager Console. In the console select as default project KGTMachineLearningWeb.Context. Into the console type **update-database** and press enter.
 
-![Package manager console in Visual Studio](./PackageManagerConsole.png)
+![Package manager console in Visual Studio](./PackageManagerConsole.PNG)
 
 This will create the database based on the connection string and also create all the tables. It will also run the seed method which will add some initial data into the database.
 
-![Package manager console in Visual Studio](./PackageManagerConsoleAfterUpdate.png)
+![Package manager console in Visual Studio](./PackageManagerConsoleAfterUpdate.PNG)
 
 ### Updating the database schema ####
 
