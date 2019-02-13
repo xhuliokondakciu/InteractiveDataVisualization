@@ -431,6 +431,7 @@ var SyncCharts = (function ($, H) {
                 }
                 chartToResize.reflow();
             });
+            data.listenForResize = true;
         }, 500, false);
 
         var prepareChartOptions = function (chartOption) {
