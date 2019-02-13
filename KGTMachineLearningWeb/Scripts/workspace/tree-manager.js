@@ -8,6 +8,7 @@
         this.treeContainerSelector = treeContainerSelector;
         this.categoriesService = categoriesService;
         this.hierarchyToOpen = hierarchyToOpen;
+        this.hierarchyToOpenShared = hierarchyToOpen.slice(0, hierarchyToOpen.length);
         this.sharedTreeContainerSelector = sharedTreeContainerSelector;
 
         //Edit description modal selectors
@@ -168,8 +169,8 @@
                     this.tree.activeNode.setActive(false);
             },
             restore: () => {
-                if (this.hierarchyToOpen)
-                    this.openTreeHierarchy(this.hierarchyToOpen);
+                if (this.hierarchyToOpenShared)
+                    this.openTreeHierarchy(this.hierarchyToOpenShared);
             },
             dnd: {
                 autoExpandMS: 400,
