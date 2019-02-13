@@ -8,7 +8,7 @@
         this.treeContainerSelector = treeContainerSelector;
         this.categoriesService = categoriesService;
         this.hierarchyToOpen = hierarchyToOpen;
-        this.hierarchyToOpenShared = hierarchyToOpen.slice(0, hierarchyToOpen.length);
+        this.hierarchyToOpenShared = hierarchyToOpen ? hierarchyToOpen.slice(0, hierarchyToOpen.length) : [];
         this.sharedTreeContainerSelector = sharedTreeContainerSelector;
 
         //Edit description modal selectors
