@@ -67,7 +67,6 @@ namespace KGTMachineLearningWeb.Models.ChartConfiguration
 
         public static void SchemaIsValid(string configXml)
         {
-            // define your schema set by importing your schema from an xsd file
             var schemaSet = new XmlSchemaSet();
             using (var schema = XmlReader.Create(HttpContext.Current.Server.MapPath(ConfigurationManager.AppSettings["ChartConfigSchema"])))
             {

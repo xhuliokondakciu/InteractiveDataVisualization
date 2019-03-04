@@ -429,7 +429,9 @@ var SyncCharts = (function ($, H) {
                 if (cWindow.outerWidth !== e.target.outerWidth || cWindow.outerHeight <= e.target.outerHeight - 10 || cWindow.outerHeight >= e.target.outerHeight + 10) {
                     cWindow.resizeTo(e.target.outerWidth, e.target.outerHeight);
                 }
-                chartToResize.reflow();
+                let chartHeight = 0.80 * e.target.outerHeight;
+                let chartWidth = e.target.outerWidth;
+                chartToResize.setSize(chartWidth, chartHeight);
             });
             data.listenForResize = true;
         }, 500, false);

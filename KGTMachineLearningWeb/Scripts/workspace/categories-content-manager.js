@@ -711,9 +711,50 @@
                 window: chartWindow,
                 chart: syncChartService.getCharts()[0],
                 chartService: syncChartService,
-                isSynced: false
+                isSynced: false,
+                isNormalized: false,
+                nonNormalizedColumns: data.data.columns
             };
-            
+
+            let $normalizeCheckbox = $("<input />", {
+                type: "checkbox",
+                class: "normalize-checkbox",
+                change: function () {
+                    openedChart.chart.destroy();
+                    openedChart.data.data.firstRowAsNames = false;
+                    if ($(this).is(":checked")) {
+
+                        //Adds normalization to the chart
+                        let newDataColumns = [];
+                        newDataColumns[0] = openedChart.data.data.columns[0];
+                        for (let i = 1; i < openedChart.data.data.columns.length; i++) {
+                            let column = openedChart.data.data.columns[i];
+                            let min = Math.min(...column);
+                            let max = Math.max(...column);
+                            let deltaMaxMin = max - min;
+                            newDataColumns[i] = column.map((v, i) => {
+                                return (v - min) / deltaMaxMin;
+                            });
+                            newDataColumns[i].name = column.name;
+
+                        }
+                        openedChart.data.data.columns = newDataColumns;
+                        let chart = openedChart.chartService.addChart(openedChart.data, openedChart.window.document.body);
+                        openedChart.chart = chart;
+                        openedChart.isNormalized = true;
+                    } else {
+                        openedChart.data.data.columns = openedChart.nonNormalizedColumns;
+                        let chart = openedChart.chartService.addChart(openedChart.data, openedChart.window.document.body);
+                        openedChart.chart = chart;
+                        openedChart.isNormalized = false;
+                    }
+                }
+            });
+            let $checkboxContainer = $("<span />", {
+                text: "Normalize series"
+            }).prepend($normalizeCheckbox);
+            $(openedChart.window.document.body).prepend($checkboxContainer);
+
             this.openedCharts.push(openedChart);
         }).fail(() => {
             chartWindow.close();
@@ -764,6 +805,11 @@
                 openedChart.window.document.body.innerHTML = "";
                 openedChart.isSynced = true;
                 openedChart.data.data.firstRowAsNames = false;
+                //Remove normalization if set
+                if (openedChart.isNormalized) {
+                    openedChart.isNormalized = false;
+                    openedChart.data.data.columns = openedChart.nonNormalizedColumns;
+                }
 
                 if (syncChartService) {
                     let chart = syncChartService.addChart(openedChart.data, openedChart.window.document.body);

@@ -1,12 +1,12 @@
 <ChartsConfigSchema>
-    <TimeSeries FileName="" ColumnName="" />
-    <Charts>
-      <Chart ChartName="">
-        <Series>
-          <Serie FileName="" ColumnName="" SerieName="" />
-          <!-- Insert additional series here -->
-        </Series>
-      </Chart>
-      <!-- Insert additional charts here -->
-    </Charts>
-  </ChartsConfigSchema>
+  <TimeSeries FileName="" ColumnName="" />
+  <Charts>
+    <Chart ChartName="">
+      <Series>
+        <Serie FileName="" ColumnName="" SerieName="" />
+        <!-- Insert additional series here -->
+      </Series>
+    </Chart>
+    <!-- Insert additional charts here -->
+  </Charts>
+</ChartsConfigSchema>
