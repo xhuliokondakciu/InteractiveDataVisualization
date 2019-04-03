@@ -141,7 +141,6 @@ namespace KGTMachineLearningWeb.Domain.Services
             }
         }
 
-        //ToDo: Remove this method once ProcessData is implemented
         public void ProcessData(
             int jobStatusId,
             string projectRootPath,
@@ -159,66 +158,78 @@ namespace KGTMachineLearningWeb.Domain.Services
             Category createdCategory = null;
             try
             {
-                _chartHubManager.ShowStarProcessAlert(userName, jobStatus);
-
-                jobStatus.Status = JobProcessedStatus.Processing;
-                _jobDomain.Update(jobStatus);
-
-                jobStatus.StartTime = DateTimeOffset.Now;
-
-                var proc = CreateChartDataProcess(jobStatus.UnprocessedDataFilePath, jobStatus.ChartDataDirectory, jobStatus.ChartsConfig);
-
-                proc.Start();
-
-                _chartHubManager.UpdateJobsBadge(userName,userId);
-
                 var output = new StringBuilder();
-
-                StreamReader stdOut = proc.StandardOutput;
-                //Synchronous read is causing issues - either for quickyl finishing jobs with lot of output (EndOfStream hangs) or for slow output processes (Peek() hangs)
-                Task stdoutReadingTask = Task.Factory.StartNew(() =>
-                   {
-                       while (!stdOut.EndOfStream)
-                       {
-                           var line = stdOut.ReadLine();
-                           output.AppendLine(line);
-                           jobStatus.JobOutput = output.ToString();
-                           _jobDomain.Update(jobStatus);
-                           _chartHubManager.UpdateJobOutput(userName, jobStatus.Id, line);
-                       }
-                   }
-                );
-
-                string stderr = proc.StandardError.ReadToEnd();
-
-                proc.WaitForExit();
-
-                if (proc.ExitCode == 1)
+                if (jobStatus.ChartsConfig.RequiresProcess)
                 {
-                    _chartHubManager.UpdateJobOutput(userName, jobStatus.Id, stderr);
-                }
-                proc.Dispose();
+                    _chartHubManager.ShowStarProcessAlert(userName, jobStatus);
+                    jobStatus.Status = JobProcessedStatus.Processing;
+                    _jobDomain.Update(jobStatus);
 
-                if (!stdoutReadingTask.Wait(TimeSpan.FromSeconds(30)))
-                {
-                    throw new Exception("Not done reading process stdout to end within 30 seconds after process exit");
+                    jobStatus.StartTime = DateTimeOffset.Now;
+
+                    var proc = CreateChartDataProcess(jobStatus.UnprocessedDataFilePath, jobStatus.ChartDataDirectory, jobStatus.ChartsConfig);
+
+                    proc.Start();
+
+                    _chartHubManager.UpdateJobsBadge(userName, userId);
+
+                    
+
+                    StreamReader stdOut = proc.StandardOutput;
+                    //Synchronous read is causing issues - either for quickyl finishing jobs with lot of output (EndOfStream hangs) or for slow output processes (Peek() hangs)
+                    Task stdoutReadingTask = Task.Factory.StartNew(() =>
+                    {
+                        while (!stdOut.EndOfStream)
+                        {
+                            var line = stdOut.ReadLine();
+                            output.AppendLine(line);
+                            jobStatus.JobOutput = output.ToString();
+                            _jobDomain.Update(jobStatus);
+                            _chartHubManager.UpdateJobOutput(userName, jobStatus.Id, line);
+                        }
+                    }
+                    );
+
+                    string stderr = proc.StandardError.ReadToEnd();
+
+                    proc.WaitForExit();
+
+                    if (proc.ExitCode == 1)
+                    {
+                        _chartHubManager.UpdateJobOutput(userName, jobStatus.Id, stderr);
+                    }
+                    proc.Dispose();
+
+                    if (!stdoutReadingTask.Wait(TimeSpan.FromSeconds(30)))
+                    {
+                        throw new Exception("Not done reading process stdout to end within 30 seconds after process exit");
+                    }
                 }
 
-                createdCategory = CreateChartsFolderStructure(jobStatus, categoryId, chartTitle, userId,projectRootPath);
+                createdCategory = CreateChartsFolderStructure(jobStatus, categoryId, chartTitle, userId, projectRootPath);
                 _categoryDomain.Add(createdCategory);
 
                 //Update charts thumbnails
                 BackgroundJob.Enqueue<IChartDataDomain>(cd => cd.UpdateThumbnail(createdCategory.ChartObjects.Select(c => c.Id), projectRootPath));
 
-                jobStatus.JobOutput = output.ToString();
-                jobStatus.EndTime = DateTimeOffset.Now;
-                jobStatus.Status = JobProcessedStatus.Processed;
-
-                _chartHubManager.ShowSuccessProcessAlert(userName, jobStatus);
-                if (_chartHubManager.UserIsConnected(userName))
+                if (jobStatus.ChartsConfig.RequiresProcess)
                 {
+                    jobStatus.JobOutput = output.ToString();
+                    jobStatus.EndTime = DateTimeOffset.Now;
+                    jobStatus.Status = JobProcessedStatus.Processed;
+                    _chartHubManager.ShowSuccessProcessAlert(userName, jobStatus);
+
+                    if (_chartHubManager.UserIsConnected(userName))
+                    {
+                        jobStatus.UserNotified = true;
+                    }
+                }
+                else
+                {
+                    jobStatus.Status = JobProcessedStatus.NoProcessNeeded;
                     jobStatus.UserNotified = true;
                 }
+                
                 _chartHubManager.ReloadCategory(userName, categoryId);
             }
             catch (Win32Exception ex)
@@ -271,10 +282,15 @@ namespace KGTMachineLearningWeb.Domain.Services
             }
             finally
             {
-                _chartHubManager.SetProcessStatus(userName, jobStatus.Status == JobProcessedStatus.Processed);
-                jobStatus.JobFinishTime = DateTimeOffset.UtcNow;
+                if (jobStatus.ChartsConfig.RequiresProcess)
+                {
+                    _chartHubManager.SetProcessStatus(userName, jobStatus.Status == JobProcessedStatus.Processed);
+                    jobStatus.JobFinishTime = DateTimeOffset.UtcNow;
+                    _chartHubManager.UpdateJobsBadge(userName, userId);
+                }
+                
                 _jobDomain.Update(jobStatus);
-                _chartHubManager.UpdateJobsBadge(userName, userId);
+                
             }
         }
 
@@ -298,25 +314,46 @@ namespace KGTMachineLearningWeb.Domain.Services
             return proc;
         }
 
-        private Category CreateChartsFolderStructure(JobStatus jobStatus, int categoryId, string chartTitle, string userId,string projectRootPath)
+        private Category CreateChartsFolderStructure(JobStatus jobStatus, int categoryId, string chartTitle, string userId, string projectRootPath)
         {
             var chartsConfig = jobStatus.ChartsConfig.GetConfigurationSchema();
             var chartObjects = new List<ChartObject>();
             foreach (var chart in chartsConfig.Charts)
             {
                 var title = chart.ChartName;
-                var timeSeriesFilePath = Path.Combine(jobStatus.ChartDataDirectory, chartsConfig.TimeSeries.FileName);
+                string timeSeriesFilePath;
+                if (jobStatus.ChartsConfig.RequiresProcess)
+                {
+                    timeSeriesFilePath = Path.Combine(jobStatus.ChartDataDirectory, chartsConfig.TimeSeries.FileName);
+                }
+                else
+                {
+                    timeSeriesFilePath = Path.Combine(jobStatus.ChartDataDirectory, jobStatus.SystemFileName);
+                }
                 var timeSeriesColumn = chartsConfig.TimeSeries.ColumnName;
-                var series = chart.Series.Select(s =>
+                List<SerieConfiguration> series;
+                if (jobStatus.ChartsConfig.RequiresProcess)
+                {
+                    series = chart.Series.Select(s =>
                         new SerieConfiguration(
                             s.SerieName,
                             Path.Combine(jobStatus.ChartDataDirectory, s.FileName),
                             s.ColumnName)).ToList();
+                }
+                else
+                {
+                    series = chart.Series.Select(s =>
+                        new SerieConfiguration(
+                            s.SerieName,
+                            Path.Combine(jobStatus.ChartDataDirectory, jobStatus.SystemFileName),
+                            s.ColumnName)).ToList();
+                }
 
                 var chartObject = new ChartObject(title)
                 {
                     OwnerId = userId,
-                    ChartDataSource = new ChartDataSource(timeSeriesFilePath, timeSeriesColumn, series)
+                    ChartDataSource = new ChartDataSource(timeSeriesFilePath, timeSeriesColumn, series),
+                    ChartType = chart.ChartType.Value
                 };
 
                 //Set default thumbnail
@@ -326,7 +363,7 @@ namespace KGTMachineLearningWeb.Domain.Services
             }
 
             var parentCategory = _categoryDomain.GetById(categoryId);
-            if(parentCategory == null)
+            if (parentCategory == null)
             {
                 parentCategory = _categoryDomain.GetRootCategoryByOwnerId(userId);
             }
@@ -344,7 +381,7 @@ namespace KGTMachineLearningWeb.Domain.Services
 
         public void UpdateThumbnail(IEnumerable<int> charts, string projectRootPath)
         {
-            foreach(var chartId in charts)
+            foreach (var chartId in charts)
             {
                 var chart = _chartObjectDomain.GetById(chartId);
                 if (chart == null) continue;

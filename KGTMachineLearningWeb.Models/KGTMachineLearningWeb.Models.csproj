@@ -42,7 +42,8 @@
       <HintPath>..\packages\FileHelpers.3.3.0\lib\net45\FileHelpers.dll</HintPath>
     </Reference>
     <Reference Include="Highcharts.Web.Mvc, Version=7.0.1.0, Culture=neutral, PublicKeyToken=90b74bd27a557bd3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Highsoft.Highcharts.7.0.1.32\lib\net40\Highcharts.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Highsoft.Highcharts.7.0.1\lib\net40\Highcharts.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -99,8 +100,6 @@
     </Compile>
     <Compile Include="Chart\ChartData.cs" />
     <Compile Include="Chart\ChartDataSource.cs" />
-    <Compile Include="Chart\PmOutput.cs" />
-    <Compile Include="Chart\RbStreamWithDesiredPrediction.cs" />
     <Compile Include="Identity\ApplicationUser.cs" />
     <Compile Include="Jobs\JobStatus.cs" />
     <Compile Include="Workspace\Category.cs" />
@@ -115,6 +114,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

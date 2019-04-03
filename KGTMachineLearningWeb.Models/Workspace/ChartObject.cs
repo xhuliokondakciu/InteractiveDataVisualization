@@ -11,7 +11,7 @@ using System.IO;
 
 namespace KGTMachineLearningWeb.Models.Workspace
 {
-    public class ChartObject
+    public class ChartObject : IEquatable<ChartObject>
     {
         protected ChartObject()
         {
@@ -41,6 +41,9 @@ namespace KGTMachineLearningWeb.Models.Workspace
         public virtual Category Category { get; set; }
 
         public string OwnerId { get; set; }
+
+        [JsonIgnore]
+        public ChartsConfigSchemaChartChartTypeValue ChartType { get; set; }
 
         [JsonIgnore]
         public virtual ApplicationUser Owner { get; set; }
@@ -83,6 +86,48 @@ namespace KGTMachineLearningWeb.Models.Workspace
                 Thumbnail = Thumbnail?.Copy(),
                 ChartDataSource = ChartDataSource?.Copy()
             };
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ChartObject);
+        }
+
+        public bool Equals(ChartObject other)
+        {
+            return other != null &&
+                   Id == other.Id &&
+                   Title == other.Title &&
+                   Description == other.Description &&
+                   CategoryId == other.CategoryId &&
+                   OwnerId == other.OwnerId &&
+                   EqualityComparer<ChartDataSource>.Default.Equals(ChartDataSource, other.ChartDataSource) &&
+                   IsEveryones == other.IsEveryones &&
+                   EqualityComparer<Thumbnail>.Default.Equals(Thumbnail, other.Thumbnail);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 1723322677;
+            hashCode = hashCode * -1521134295 + Id.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Title);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Description);
+            hashCode = hashCode * -1521134295 + CategoryId.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(OwnerId);
+            hashCode = hashCode * -1521134295 + EqualityComparer<ChartDataSource>.Default.GetHashCode(ChartDataSource);
+            hashCode = hashCode * -1521134295 + IsEveryones.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<Thumbnail>.Default.GetHashCode(Thumbnail);
+            return hashCode;
+        }
+
+        public static bool operator ==(ChartObject left, ChartObject right)
+        {
+            return EqualityComparer<ChartObject>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(ChartObject left, ChartObject right)
+        {
+            return !(left == right);
         }
     }
 

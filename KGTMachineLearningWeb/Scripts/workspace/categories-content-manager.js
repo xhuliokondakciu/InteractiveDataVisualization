@@ -55,7 +55,6 @@
         this.saveDescriptionModalButtonId = "save-description-modal";
         this.sessionStorageCopyKey = "copiedCategoryId";
         this.sessionStorageCopyType = "copyType";
-        this.createChartModalSelector = "#create-chart-object-modal";
         this.syncChartsSelector = "#open-sync-charts";
         this.uploadChartDataModalSelector = "#upload-chart-data-modal";
         this.uploadChartDataFormSelector = "#upload-chart-data-form";
@@ -201,24 +200,24 @@
                         });
                     }
                 },
-                "create-chart": {
-                    name: "Create item",
-                    icon: (opt, $itemElement, itemKey, item) => {
-                        $itemElement.html("<span class='context-menu-icon add-chart-icon'></span> " + item.name);
-                    },
-                    visible: function (key, opt) {
-                        let node = $.ui.fancytree.getTree("#categoriesTree").getActiveNode() || $.ui.fancytree.getTree("#sharedCategoryTree").getActiveNode();
-                        if (!node) return false;
-                        return node.data.allowedActions.some(a => a === KGT.Constants.permissions.create)
-                            && $(this).data("is-category") === undefined;
-                    },
-                    callback: (itemKey, opt) => {
-                        let node = $.ui.fancytree.getNode(opt.$trigger);
-                        if (!node) return false;
-                        $(this.createChartModalSelector).find("#category-id-input").val(node.key);
-                        $(this.createChartModalSelector).modal('show');
-                    }
-                },
+                //"create-chart": {
+                //    name: "Create item",
+                //    icon: (opt, $itemElement, itemKey, item) => {
+                //        $itemElement.html("<span class='context-menu-icon add-chart-icon'></span> " + item.name);
+                //    },
+                //    visible: function (key, opt) {
+                //        let node = $.ui.fancytree.getTree("#categoriesTree").getActiveNode() || $.ui.fancytree.getTree("#sharedCategoryTree").getActiveNode();
+                //        if (!node) return false;
+                //        return node.data.allowedActions.some(a => a === KGT.Constants.permissions.create)
+                //            && $(this).data("is-category") === undefined;
+                //    },
+                //    callback: (itemKey, opt) => {
+                //        let node = $.ui.fancytree.getNode(opt.$trigger);
+                //        if (!node) return false;
+                //        $(this.createChartModalSelector).find("#category-id-input").val(node.key);
+                //        $(this.createChartModalSelector).modal('show');
+                //    }
+                //},
                 //"upload-file": {
                 //    name: "Upload file",
                 //    icon: (opt, $itemElement, itemKey, item) => {

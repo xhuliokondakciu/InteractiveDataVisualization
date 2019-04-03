@@ -15,6 +15,19 @@
               <xs:element maxOccurs="unbounded" minOccurs="1" name="Chart">
                 <xs:complexType>
                   <xs:sequence>
+                    <xs:element name="ChartType">
+                      <xs:complexType>
+                        <xs:attribute name="Value">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:NCName">
+                              <xs:enumeration value="Line" />
+                              <xs:enumeration value="Area" />
+                              <xs:enumeration value="Column" />
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
                     <xs:element name="Series">
                       <xs:complexType>
                         <xs:sequence>

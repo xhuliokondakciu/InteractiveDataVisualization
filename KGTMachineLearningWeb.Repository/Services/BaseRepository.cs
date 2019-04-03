@@ -25,11 +25,6 @@ namespace KGTMachineLearningWeb.Repository.Services
 
         }
 
-        public KGTContext GetContext()
-        {
-            return context;
-        }
-
         public virtual TEntity Add(TEntity entity)
         {
             var retVal = _entities.Add(entity);

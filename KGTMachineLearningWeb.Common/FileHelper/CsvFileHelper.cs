@@ -42,7 +42,7 @@ namespace KGTMachineLearningWeb.Common.FileHelper
                .ToArray();
 
                 CacheItemPolicy policy = new CacheItemPolicy();
-                policy.SlidingExpiration = new System.TimeSpan(0, 0, 20);
+                policy.SlidingExpiration = new System.TimeSpan(0, 30, 00);
                 policy.ChangeMonitors.Add(new HostFileChangeMonitor(new string[] { _filePath }));
                 _cache.Add(_filePath, _lines, policy);
             }

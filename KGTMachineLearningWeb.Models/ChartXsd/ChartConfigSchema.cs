@@ -95,9 +95,22 @@ public partial class ChartsConfigSchemaTimeSeries {
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
 public partial class ChartsConfigSchemaChart {
     
+    private ChartsConfigSchemaChartChartType chartTypeField;
+    
     private ChartsConfigSchemaChartSerie[] seriesField;
     
     private string chartNameField;
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+    public ChartsConfigSchemaChartChartType ChartType {
+        get {
+            return this.chartTypeField;
+        }
+        set {
+            this.chartTypeField = value;
+        }
+    }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -121,6 +134,57 @@ public partial class ChartsConfigSchemaChart {
             this.chartNameField = value;
         }
     }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+[System.SerializableAttribute()]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
+public partial class ChartsConfigSchemaChartChartType {
+    
+    private ChartsConfigSchemaChartChartTypeValue valueField;
+    
+    private bool valueFieldSpecified;
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public ChartsConfigSchemaChartChartTypeValue Value {
+        get {
+            return this.valueField;
+        }
+        set {
+            this.valueField = value;
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIgnoreAttribute()]
+    public bool ValueSpecified {
+        get {
+            return this.valueFieldSpecified;
+        }
+        set {
+            this.valueFieldSpecified = value;
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+[System.SerializableAttribute()]
+[System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
+public enum ChartsConfigSchemaChartChartTypeValue {
+    
+    /// <remarks/>
+    Line,
+    
+    /// <remarks/>
+    Area,
+    
+    /// <remarks/>
+    Column,
 }
 
 /// <remarks/>

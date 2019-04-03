@@ -2,6 +2,7 @@
 using KGTMachineLearningWeb.Models.Identity;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,23 +18,27 @@ using System.Xml.Serialization;
 
 namespace KGTMachineLearningWeb.Models.ChartConfiguration
 {
-    public class ChartsConfiguration
+    public class ChartsConfiguration : IEquatable<ChartsConfiguration>
     {
-        public ChartsConfiguration() { }
-        public ChartsConfiguration(string title, int processorId, string configuration, string userId, bool isSystem)
+        public ChartsConfiguration()
+        {
+            RequiresProcess = true;
+        }
+        public ChartsConfiguration(string title, int? processorId, string configuration, string userId, bool isSystem)
         {
             Title = title;
             ProcessorId = processorId;
             ConfigurationXml = configuration;
             UserId = userId;
             IsSystem = isSystem;
+            RequiresProcess = true;
         }
         public int Id { get; set; }
         [Required]
         public string Title { get; set; }
-        [Required]
+
         [DisplayName("Processor")]
-        public int ProcessorId { get; set; }
+        public int? ProcessorId { get; set; }
 
         public virtual ProcessorConfiguration Processor { get; set; }
 
@@ -48,6 +53,9 @@ namespace KGTMachineLearningWeb.Models.ChartConfiguration
 
         [DisplayName("Is system?")]
         public bool IsSystem { get; set; }
+
+        [DisplayName("Requires process")]
+        public bool RequiresProcess { get; set; }
 
         public ChartsConfigSchema GetConfigurationSchema()
         {
@@ -87,6 +95,46 @@ namespace KGTMachineLearningWeb.Models.ChartConfiguration
                 throw new ChartSchemaValidationException(args.Message, args.Exception);
             }
 
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ChartsConfiguration);
+        }
+
+        public bool Equals(ChartsConfiguration other)
+        {
+            return other != null &&
+                   Id == other.Id &&
+                   Title == other.Title &&
+                   EqualityComparer<int?>.Default.Equals(ProcessorId, other.ProcessorId) &&
+                   ConfigurationXml == other.ConfigurationXml &&
+                   UserId == other.UserId &&
+                   IsSystem == other.IsSystem &&
+                   RequiresProcess == other.RequiresProcess;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -23027694;
+            hashCode = hashCode * -1521134295 + Id.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Title);
+            hashCode = hashCode * -1521134295 + EqualityComparer<int?>.Default.GetHashCode(ProcessorId);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ConfigurationXml);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(UserId);
+            hashCode = hashCode * -1521134295 + IsSystem.GetHashCode();
+            hashCode = hashCode * -1521134295 + RequiresProcess.GetHashCode();
+            return hashCode;
+        }
+
+        public static bool operator ==(ChartsConfiguration left, ChartsConfiguration right)
+        {
+            return EqualityComparer<ChartsConfiguration>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(ChartsConfiguration left, ChartsConfiguration right)
+        {
+            return !(left == right);
         }
     }
 

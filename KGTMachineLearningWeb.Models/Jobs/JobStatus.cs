@@ -9,7 +9,7 @@ using System.IO;
 
 namespace KGTMachineLearningWeb.Models.Jobs
 {
-    public class JobStatus
+    public class JobStatus : IEquatable<JobStatus>
     {
         public int Id { get; set; }
         public string UserFileName { get; set; }
@@ -52,6 +52,52 @@ namespace KGTMachineLearningWeb.Models.Jobs
 
         public DateTimeOffset JobFinishTime { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as JobStatus);
+        }
+
+        public bool Equals(JobStatus other)
+        {
+            return other != null &&
+                   Id == other.Id &&
+                   UserFileName == other.UserFileName &&
+                   SystemFileName == other.SystemFileName &&
+                   ChartDataDirectory == other.ChartDataDirectory &&
+                   UnprocessedDataFilePath == other.UnprocessedDataFilePath &&
+                   Status == other.Status &&
+                   EqualityComparer<ICollection<ChartDataSource>>.Default.Equals(ChartDataSources, other.ChartDataSources) &&
+                   HangfireJobId == other.HangfireJobId &&
+                   JobOutput == other.JobOutput &&
+                   UserNotified == other.UserNotified &&
+                   ChartsConfigId == other.ChartsConfigId &&
+                   UserCreatorId == other.UserCreatorId &&
+                   EqualityComparer<DateTimeOffset?>.Default.Equals(StartTime, other.StartTime) &&
+                   EqualityComparer<DateTimeOffset?>.Default.Equals(EndTime, other.EndTime) &&
+                   JobFinishTime.Equals(other.JobFinishTime);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 1573362128;
+            hashCode = hashCode * -1521134295 + Id.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(UserFileName);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(SystemFileName);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ChartDataDirectory);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(UnprocessedDataFilePath);
+            hashCode = hashCode * -1521134295 + Status.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<ICollection<ChartDataSource>>.Default.GetHashCode(ChartDataSources);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(HangfireJobId);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(JobOutput);
+            hashCode = hashCode * -1521134295 + UserNotified.GetHashCode();
+            hashCode = hashCode * -1521134295 + ChartsConfigId.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(UserCreatorId);
+            hashCode = hashCode * -1521134295 + EqualityComparer<DateTimeOffset?>.Default.GetHashCode(StartTime);
+            hashCode = hashCode * -1521134295 + EqualityComparer<DateTimeOffset?>.Default.GetHashCode(EndTime);
+            hashCode = hashCode * -1521134295 + EqualityComparer<DateTimeOffset>.Default.GetHashCode(JobFinishTime);
+            return hashCode;
+        }
+
         public TimeSpan? GetProcessDuration()
         {
             if (Status == JobProcessedStatus.Processing && StartTime.HasValue)
@@ -65,6 +111,16 @@ namespace KGTMachineLearningWeb.Models.Jobs
                 return null;
             }
         }
+
+        public static bool operator ==(JobStatus left, JobStatus right)
+        {
+            return EqualityComparer<JobStatus>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(JobStatus left, JobStatus right)
+        {
+            return !(left == right);
+        }
     }
 
     public enum JobProcessedStatus
@@ -72,10 +128,11 @@ namespace KGTMachineLearningWeb.Models.Jobs
         Unprocessed = 0,
         Processing,
         Processed,
-        ProcessedWithError
+        ProcessedWithError,
+        NoProcessNeeded
     }
 
-    public class ChartDataToProcess
+    public class ChartDataToProcess : IEquatable<ChartDataToProcess>
     {
         /// <summary>
         /// Create a ChartDataToProcess object
@@ -90,5 +147,35 @@ namespace KGTMachineLearningWeb.Models.Jobs
         public byte[] ChartFile { get; set; }
 
         public string FileName { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ChartDataToProcess);
+        }
+
+        public bool Equals(ChartDataToProcess other)
+        {
+            return other != null &&
+                   EqualityComparer<byte[]>.Default.Equals(ChartFile, other.ChartFile) &&
+                   FileName == other.FileName;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 496709813;
+            hashCode = hashCode * -1521134295 + EqualityComparer<byte[]>.Default.GetHashCode(ChartFile);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FileName);
+            return hashCode;
+        }
+
+        public static bool operator ==(ChartDataToProcess left, ChartDataToProcess right)
+        {
+            return EqualityComparer<ChartDataToProcess>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(ChartDataToProcess left, ChartDataToProcess right)
+        {
+            return !(left == right);
+        }
     }
 }

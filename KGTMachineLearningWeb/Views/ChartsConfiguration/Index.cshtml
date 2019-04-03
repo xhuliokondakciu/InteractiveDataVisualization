@@ -18,6 +18,9 @@
                                 Title
                             </th>
                             <th>
+                                File will be processed
+                            </th>
+                            <th>
                                 Processor
                             </th>
                             <th>
@@ -64,7 +67,19 @@
 
             columns: [
                 { data: "title", name:"title",  autoWidth: true },
-                { data: "processor.name", name: "Processor", autoWidth: true },
+                { data: "requiresProcess", name:"File will be processed",  autoWidth: true },
+                {
+                    data: null,
+                    name: "Processor",
+                    autoWidth: true,
+                    render: (data, type, row) => {
+                        if (data.processor) {
+                            return data.processor.name;
+                        } else {
+                            return "";
+                        }
+                    }
+                },
                 { data: "isSystem", name: "Is system", autoWidth: true },
                 {
                     data: null,

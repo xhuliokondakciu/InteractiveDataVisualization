@@ -1,4 +1,4 @@
-﻿using Hangfire;
+﻿ using Hangfire;
 using KGTMachineLearningWeb.Attributes;
 using KGTMachineLearningWeb.Domain.Contracts;
 using KGTMachineLearningWeb.Domain.Hubs;
@@ -32,6 +32,7 @@ namespace KGTMachineLearningWeb
             {
                 ServerName = "ChartDataServer",
                 WorkerCount = 4,
+                ServerTimeout = new TimeSpan(4, 0, 0)
 
             };
             app.UseHangfireServer(serverOptions);

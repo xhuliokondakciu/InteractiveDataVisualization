@@ -29,9 +29,26 @@
                         </div>
 
                         <div class="form-group">
+                            @Html.LabelFor(model => model.RequiresProcess, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(model => model.RequiresProcess, new { id = "requires-process-checkbox" })
+                                    @Html.ValidationMessageFor(model => model.RequiresProcess, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             @Html.LabelFor(model => model.ProcessorId, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.ProcessorId, ViewBag.Processors as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                                @if (Model.RequiresProcess)
+                                {
+                                    @Html.DropDownListFor(model => model.ProcessorId, ViewBag.Processors as IEnumerable<SelectListItem>, new { @class = "form-control", id = "processor-dropdown" })
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(model => model.ProcessorId, ViewBag.Processors as IEnumerable<SelectListItem>, new { @class = "form-control", disabled = "disabled", id = "processor-dropdown" })
+                                }
                                 @Html.ValidationMessageFor(model => model.ProcessorId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -41,7 +58,7 @@
                             <div class="col-md-10">
                                 @Html.TextAreaFor(model => model.ConfigurationXml, new { @class = "form-control", id = "configXml" })
                                 @Html.ValidationMessageFor(model => model.ConfigurationXml, "", new { @class = "text-danger" })
-                                <br/>
+                                <br />
                                 <button class="btn btn-secondary mt-2 mb-2" id="resetXml">Reset xml</button>
                             </div>
                         </div>
@@ -87,8 +104,8 @@
 
 
     <script>
-    $(function () {
-        document.getElementById("configXml").value = vkbeautify.xml(document.getElementById("configXml").value);
+        $(function () {
+            document.getElementById("configXml").value = vkbeautify.xml(document.getElementById("configXml").value);
 
             let configXml = CodeMirror.fromTextArea(document.getElementById("configXml"), {
                 mode: "xml",
@@ -102,6 +119,14 @@
                 configXml.setValue(defaultXml);
 
             });
-        })
+
+            $("#requires-process-checkbox").change(function () {
+                if ($(this).is(":checked")) {
+                    $("#processor-dropdown").removeAttr("disabled");
+                } else {
+                    $("#processor-dropdown").attr("disabled", "disabled");
+                }
+            });
+        });
     </script>
 }

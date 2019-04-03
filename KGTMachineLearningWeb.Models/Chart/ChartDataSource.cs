@@ -10,7 +10,7 @@ using static KGTMachineLearningWeb.Common.Enum.Enumerators;
 
 namespace KGTMachineLearningWeb.Models.Chart
 {
-    public class ChartDataSource
+    public class ChartDataSource : IEquatable<ChartDataSource>
     {
         protected ChartDataSource() { }
 
@@ -68,9 +68,44 @@ namespace KGTMachineLearningWeb.Models.Chart
             return timeSeriesNewPath;
         }
 
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ChartDataSource);
+        }
+
+        public bool Equals(ChartDataSource other)
+        {
+            return other != null &&
+                   Id == other.Id &&
+                   TimeSerieFilePath == other.TimeSerieFilePath &&
+                   TimeSerieColumn == other.TimeSerieColumn &&
+                   EqualityComparer<ICollection<SerieConfiguration>>.Default.Equals(Series, other.Series) &&
+                   EqualityComparer<ChartObject>.Default.Equals(ChartObject, other.ChartObject);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 2022755631;
+            hashCode = hashCode * -1521134295 + Id.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(TimeSerieFilePath);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(TimeSerieColumn);
+            hashCode = hashCode * -1521134295 + EqualityComparer<ICollection<SerieConfiguration>>.Default.GetHashCode(Series);
+            hashCode = hashCode * -1521134295 + EqualityComparer<ChartObject>.Default.GetHashCode(ChartObject);
+            return hashCode;
+        }
+
+        public static bool operator ==(ChartDataSource source1, ChartDataSource source2)
+        {
+            return EqualityComparer<ChartDataSource>.Default.Equals(source1, source2);
+        }
+
+        public static bool operator !=(ChartDataSource source1, ChartDataSource source2)
+        {
+            return !(source1 == source2);
+        }
     }
 
-    public class SerieConfiguration
+    public class SerieConfiguration : IEquatable<SerieConfiguration>
     {
         protected SerieConfiguration() { }
         public SerieConfiguration(string name, string filePath, string columnName)
@@ -111,6 +146,42 @@ namespace KGTMachineLearningWeb.Models.Chart
             }
 
             return fileNewPath;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as SerieConfiguration);
+        }
+
+        public bool Equals(SerieConfiguration other)
+        {
+            return other != null &&
+                   Id == other.Id &&
+                   Name == other.Name &&
+                   FilePath == other.FilePath &&
+                   ColumnName == other.ColumnName &&
+                   EqualityComparer<ChartDataSource>.Default.Equals(ChartDataSource, other.ChartDataSource);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -148795900;
+            hashCode = hashCode * -1521134295 + Id.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FilePath);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ColumnName);
+            hashCode = hashCode * -1521134295 + EqualityComparer<ChartDataSource>.Default.GetHashCode(ChartDataSource);
+            return hashCode;
+        }
+
+        public static bool operator ==(SerieConfiguration configuration1, SerieConfiguration configuration2)
+        {
+            return EqualityComparer<SerieConfiguration>.Default.Equals(configuration1, configuration2);
+        }
+
+        public static bool operator !=(SerieConfiguration configuration1, SerieConfiguration configuration2)
+        {
+            return !(configuration1 == configuration2);
         }
     }
 }

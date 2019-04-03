@@ -2,6 +2,7 @@
   <TimeSeries FileName="" ColumnName="" />
   <Charts>
     <Chart ChartName="">
+      <ChartType Value="" />
       <Series>
         <Serie FileName="" ColumnName="" SerieName="" />
         <!-- Insert additional series here -->

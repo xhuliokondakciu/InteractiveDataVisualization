@@ -11,14 +11,14 @@ namespace KGTMachineLearningWeb.Domain.Factories
     {
         public const int DATE_COLUMN_INDEX = 2;
         public const string BACKGROUND_CHART_COLOR = "#f8f9fa";
-        private static Highcharts CreateLineChartDefaultOptions(string chartTitle, XAxisType xAxisType, YAxisType yAxisType)
+        private static Highcharts CreateChartDefaultOptions(string chartTitle, XAxisType xAxisType, YAxisType yAxisType, ChartType chartType)
         {
             return new Highcharts
             {
                 Title = new Title { Text = chartTitle },
                 Chart = new Chart
                 {
-                    Type = ChartType.Line,
+                    Type = chartType,
                     Panning = true,
                     BackgroundColor = BACKGROUND_CHART_COLOR
                 },
@@ -54,7 +54,8 @@ namespace KGTMachineLearningWeb.Domain.Factories
                     },
                     Series = new PlotOptionsSeries
                     {
-                       TurboThreshold = double.MaxValue
+                       TurboThreshold = double.MaxValue,
+                       ConnectNulls = false
                     }
                 },
                 Boost = new Boost
@@ -66,200 +67,86 @@ namespace KGTMachineLearningWeb.Domain.Factories
             };
         }
 
-        private static Highcharts CreateAreaChartDefaultOptions(string chartTitle, XAxisType xAxisType, YAxisType yAxisType)
+        private static ChartType GetHighchartChartType(ChartsConfigSchemaChartChartTypeValue chartType)
         {
-            return new Highcharts
+            switch (chartType)
             {
-                Chart = new Chart
-                {
-                    Panning = true,
-                    BackgroundColor = BACKGROUND_CHART_COLOR
-                },
-                Title = new Title
-                {
-                    Text = chartTitle
-                },
-                XAxis = new List<XAxis>
-            {
-                new XAxis
-                {
-                    Crosshair = new XAxisCrosshair
-                        {
-                            DashStyle = XAxisCrosshairDashStyle.Dash,
-                            Width = 2
-                        },
-                    Type = xAxisType,
-                    Offset = 0
-                }
-            },
-                YAxis = new List<YAxis>
-            {
-                new YAxis
-                {
-                    Type = yAxisType
-                }
-            },
-                PlotOptions = new PlotOptions
-                {
-                    Spline = new PlotOptionsSpline
-                    {
-                        Marker = new PlotOptionsSplineMarker
-                        {
-                            Enabled = false
-                        }
-                    },
-                    Series = new PlotOptionsSeries
-                    {
-                        TurboThreshold = 10000
-                    }
-                }
-            };
+                case ChartsConfigSchemaChartChartTypeValue.Column:
+                    return ChartType.Column;
+                case ChartsConfigSchemaChartChartTypeValue.Area:
+                    return ChartType.Area;
+                case ChartsConfigSchemaChartChartTypeValue.Line:
+                    return ChartType.Line;
+                default:
+                    return ChartType.Line;
+            }
         }
 
-        private static Highcharts CreateHeatMapDefaultChartOptions(
-            string chartTitle,
-            XAxisType xAxisType,
-            YAxisType yAxisType,
-            double yAxisMin,
-            double yAxisMax,
-            double valueMin,
-            double valueMax,
-            double colSize)
+        private static Highcharts CreateLineChartOptions(IEnumerable<ChartSerie> series, string chartTitle,ChartsConfigSchemaChartChartTypeValue chartType)
         {
-            return new Highcharts
+            var lineSeries = series.Select(s =>
             {
-                Title = new Title
+                switch (chartType)
                 {
-                    Text = chartTitle
-                },
-                Chart = new Chart
-                {
-                    Type = ChartType.Heatmap,
-                    ZoomType = ChartZoomType.Xy,
-                    BackgroundColor = BACKGROUND_CHART_COLOR
-                },
-                XAxis = new List<XAxis>
-                {
-                    new XAxis
-                    {
-                        Type = xAxisType,
-                        ShowLastLabel = false,
-                        Offset = 0
-                    }
-                },
-                YAxis = new List<YAxis>
-                {
-                    new YAxis
-                    {
-                        Min = yAxisMin,
-                        Max = yAxisMax,
-                        Type = yAxisType
-                    }
-                },
-                ColorAxis = new ColorAxis
-                {
-                    Stops = new List<Stop>
-                    {
-                        new Stop
+                    case ChartsConfigSchemaChartChartTypeValue.Line:
+                        return (Series)new LineSeries
                         {
-                            Position = 0,
-                            Color = "#3060cf"
-                        },
-                        new Stop
-                        {
-                            Position = 0.5,
-                            Color = "#fffbbc"
-                        },
-                        new Stop
-                        {
-                            Position = 0.9,
-                            Color = "#c4463a"
-                        },
-                        new Stop
-                        {
-                            Position = 1,
-                            Color = "#c4463a"
-                        }
-                    },
-                    Min = valueMin,
-                    Max = valueMax,
-                    StartOnTick = false,
-                    EndOnTick = false
-                },
-                Boost = new Boost
-                {
-                    UseGPUTranslations = true,
-                    SeriesThreshold = 10000
-
-                },
-                Series = new List<Series>
-                {
-                    new HeatmapSeries
-                    {
-                        BoostThreshold = 100,
-                        BorderWidth = 0,
-                        NullColor = "#EFEFEF",
-                        TurboThreshold = double.MaxValue,
-                        Colsize = colSize
-                    }
-                }
-            };
-        }
-
-        private static Highcharts CreateLineChartOptions(ChartData chartData, string chartTitle)
-        {
-            var lineSeries = chartData.Series.Select(s =>
-            {
-                return new LineSeries
-                {
-                    Name = s.Name,
-                    Type = LineSeriesType.Line,
-                    Data = s.Points.Select((p, index) =>
-                    {
-                        return new LineSeriesData
-                        {
-                            X = p.X?.ToUnixTimeMilliseconds(),
-                            Y = p.Y
+                            Name = s.Name,
+                            Data = s.Points.Select((p, index) =>
+                            {
+                                return new LineSeriesData
+                                {
+                                    X = p.X?.ToUnixTimeMilliseconds(),
+                                    Y = p.Y
+                                };
+                            }).ToList(),
+                            BoostThreshold = 1000,
+                            TurboThreshold = double.MaxValue
                         };
-                    }).ToList(),
-                    BoostThreshold = 10000,
-                    TurboThreshold = double.MaxValue
-                };
+                    case ChartsConfigSchemaChartChartTypeValue.Area:
+                        return (Series)new AreaSeries
+                        {
+                            Name = s.Name,
+                            Data = s.Points.Select((p, index) =>
+                            {
+                                return new AreaSeriesData
+                                {
+                                    X = p.X?.ToUnixTimeMilliseconds(),
+                                    Y = p.Y
+                                };
+                            }).ToList(),
+                            BoostThreshold = 1000,
+                            TurboThreshold = double.MaxValue
+                        };
+                    case ChartsConfigSchemaChartChartTypeValue.Column:
+                        return (Series)new ColumnSeries
+                        {
+                            Name = s.Name,
+                            Data = s.Points.Select((p, index) =>
+                            {
+                                return new ColumnSeriesData
+                                {
+                                    X = p.X?.ToUnixTimeMilliseconds(),
+                                    Y = p.Y
+                                };
+                            }).ToList(),
+                            BoostThreshold = 1000,
+                            TurboThreshold = double.MaxValue
+                        };
+                    default:
+                        goto case ChartsConfigSchemaChartChartTypeValue.Line;
+                }
+                
             });
 
-            var chartOptions = CreateLineChartDefaultOptions(chartTitle, XAxisType.Datetime, YAxisType.Linear);
+            var chartOptions = CreateChartDefaultOptions(chartTitle, XAxisType.Datetime, YAxisType.Linear,GetHighchartChartType(chartType));
             chartOptions.Series = lineSeries.Cast<Series>().ToList();
 
             return chartOptions;
         }
-
-        private static Highcharts CreateAreaChartOptions(ChartData chartData, string chartTitle)
-        {
-            var areaSeries = chartData.Series.Select(s =>
-            {
-                return new AreaSeries
-                {
-                    Name = s.Name,
-                    Data = s.Points.Select((p, index) =>
-                    {
-                        return new AreaSeriesData
-                        {
-                            X = p.X?.ToUnixTimeMilliseconds(),
-                            Y = p.Y
-                        };
-                    }).ToList()
-                };
-            });
-            var chartOptions = CreateAreaChartDefaultOptions(chartTitle, XAxisType.Datetime, YAxisType.Linear);
-            chartOptions.Series = areaSeries.Cast<Series>().ToList();
-
-            return chartOptions;
-        }
-
+        
         public static Highcharts GetHighchartOptions(ChartDataSource dataSource)
         {
-            //return CreateLineChartOptions(ChartDataFactory.CreateChartData(dataSource), dataSource?.ChartObject?.Title ?? "");
-
             var timeColumn = new CsvFileHelper(dataSource.TimeSerieFilePath).ParseSingle<string>(dataSource.TimeSerieColumn);
 
             var xColumn = new List<object> { timeColumn.ColumnName };
@@ -276,7 +163,7 @@ namespace KGTMachineLearningWeb.Domain.Factories
             var columns = new List<List<object>> { xColumn };
             columns.AddRange(dataColumns);
 
-            var chartOptions = CreateLineChartDefaultOptions(dataSource?.ChartObject?.Title ?? "", XAxisType.Datetime, YAxisType.Linear);
+            var chartOptions = CreateChartDefaultOptions(dataSource?.ChartObject?.Title ?? "", XAxisType.Datetime, YAxisType.Linear,GetHighchartChartType(dataSource.ChartObject.ChartType));
             chartOptions.Data = new Data
             {
                 Columns = columns,
@@ -288,7 +175,24 @@ namespace KGTMachineLearningWeb.Domain.Factories
 
         public static Highcharts GetHighchartOptionsForThumbnail(ChartDataSource dataSource)
         {
-            return CreateLineChartOptions(ChartDataFactory.CreateChartData(dataSource), dataSource?.ChartObject?.Title ?? "");
+            var xCsvColumn = new CsvFileHelper(dataSource.TimeSerieFilePath).ParseSingle<DateTimeOffset>(dataSource.TimeSerieColumn);
+
+            var series = dataSource.Series.Select(serie =>
+            {
+                List<int> unparsedIndexes = new List<int>();
+                var yValues = new CsvFileHelper(serie.FilePath).ParseSingle<double?>(serie.ColumnName, unparsedIndexes);
+                
+                ChartPoint[] chartPoints = new ChartPoint[yValues.Values.Length];
+                
+                for(int i = 0; i < yValues.Values.Length; i++)
+                {
+                    chartPoints[i] = new ChartPoint(xCsvColumn.Values[i], yValues.Values[i]);
+                }
+
+                return new ChartSerie(serie.Name, chartPoints);
+            });
+
+            return CreateLineChartOptions(series, dataSource?.ChartObject?.Title ?? "",dataSource.ChartObject.ChartType);
         }
     }
 }

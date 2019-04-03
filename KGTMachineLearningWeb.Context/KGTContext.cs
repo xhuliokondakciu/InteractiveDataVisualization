@@ -25,13 +25,13 @@ namespace KGTMachineLearningWeb.Context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            //modelBuilder.Entity<IdentityUser>().ToTable("User");
-            //modelBuilder.Entity<ApplicationUser>().ToTable("User");
+            modelBuilder.Entity<ApplicationUser>().ToTable("User");
             //modelBuilder.Entity<IdentityRole>().ToTable("Role");
             //modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole");
             //modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaim");
             //modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogin");
+
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             base.OnModelCreating(modelBuilder);
 
@@ -54,6 +54,11 @@ namespace KGTMachineLearningWeb.Context
             modelBuilder.Entity<ChartDataSource>()
                 .HasMany(ds => ds.Series)
                 .WithRequired(s => s.ChartDataSource)
+                .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<ChartsConfiguration>()
+                .HasRequired(cc => cc.User)
+                .WithMany(u => u.ChartsConfigurations)
                 .WillCascadeOnDelete(true);
         }
 

@@ -11,7 +11,6 @@ namespace KGTMachineLearningWeb.Repository.Contracts
 {
     public interface IBaseRepository<TId, TEntity> : IDisposable where TEntity : class
     {
-        KGTContext GetContext();
         IEnumerable<TEntity> GetAll();
 
         TEntity GetById(TId id);

@@ -10,7 +10,6 @@ using System.Web.Http.Results;
 using System.Web.Mvc;
 using KGTMachineLearningWeb.Areas.Models.User;
 using KGTMachineLearningWeb.Attributes;
-using KGTMachineLearningWeb.Context;
 using KGTMachineLearningWeb.Controllers;
 using KGTMachineLearningWeb.Domain.Contracts;
 using KGTMachineLearningWeb.Models;

@@ -256,26 +256,26 @@ namespace KGTMachineLearningWeb.Controllers
             _categoryDomain.Delete(categoryId);
         }
 
-        [HttpPost]
-        [CategoryAuthorize(CategoryIdRequestName = "categoryId", Permission = Permissions.Create)]
-        public ActionResult CreateChartObject(string title, string description, int categoryId)
-        {
-            var category = _categoryDomain.GetById(categoryId);
-            var chartObjectToCreate = new ChartObject(title,description)
-            {
-                CategoryId = categoryId,
-                OwnerId = category.IsEveryones ? null : category.OwnerId
-            };
+        //[HttpPost]
+        //[CategoryAuthorize(CategoryIdRequestName = "categoryId", Permission = Permissions.Create)]
+        //public ActionResult CreateChartObject(string title, string description, int categoryId)
+        //{
+        //    var category = _categoryDomain.GetById(categoryId);
+        //    var chartObjectToCreate = new ChartObject(title,description)
+        //    {
+        //        CategoryId = categoryId,
+        //        OwnerId = category.IsEveryones ? null : category.OwnerId
+        //    };
 
-            var createdChartObject = _chartObjectDomain.Add(chartObjectToCreate);
+        //    var createdChartObject = _chartObjectDomain.Add(chartObjectToCreate);
 
-            if (createdChartObject == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "The chart was not created");
-            }
+        //    if (createdChartObject == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "The chart was not created");
+        //    }
 
-            return Json(createdChartObject);
-        }
+        //    return Json(createdChartObject);
+        //}
 
         [HttpPost]
         [ChartObjectAuthorize(ChartObjectIdRequestName = "chartObjectId", Permission = Permissions.Copy)]

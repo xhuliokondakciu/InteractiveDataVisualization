@@ -45,7 +45,8 @@
       <HintPath>..\packages\Hangfire.SqlServer.1.6.21\lib\net45\Hangfire.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Highcharts.Web.Mvc, Version=7.0.1.0, Culture=neutral, PublicKeyToken=90b74bd27a557bd3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Highsoft.Highcharts.7.0.1.32\lib\net40\Highcharts.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Highsoft.Highcharts.7.0.1\lib\net40\Highcharts.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -113,7 +114,6 @@
     <Compile Include="Contracts\IProcessorConfigurationDomain.cs" />
     <Compile Include="Contracts\IRoleDomain.cs" />
     <Compile Include="Contracts\IUserDomain.cs" />
-    <Compile Include="Factories\ChartDataFactory.cs" />
     <Compile Include="Factories\HighchartsFactory.cs" />
     <Compile Include="Hubs\ChartHub.cs" />
     <Compile Include="Hubs\ChartHubManager.cs" />
@@ -140,10 +140,6 @@
       <Project>{9F5CB60D-EF56-4E76-B367-AF1DF6780314}</Project>
       <Name>KGTMachineLearningWeb.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KGTMachineLearningWeb.Context\KGTMachineLearningWeb.Context.csproj">
-      <Project>{0557B9DE-AEE7-4876-97B5-6F098D0FD817}</Project>
-      <Name>KGTMachineLearningWeb.Context</Name>
-    </ProjectReference>
     <ProjectReference Include="..\KGTMachineLearningWeb.Models\KGTMachineLearningWeb.Models.csproj">
       <Project>{e426203f-7652-4ae7-bf8e-efd8c2ae9f82}</Project>
       <Name>KGTMachineLearningWeb.Models</Name>
@@ -155,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="DomainClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

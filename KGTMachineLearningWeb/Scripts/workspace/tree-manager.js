@@ -22,6 +22,7 @@
         this.uploadChartDataFormSelector = "#upload-chart-data-form";
 
         $.connection.chartHub.client.reloadNode = (categoryId) => {
+            debugger;
             if (this.activeNode.key == categoryId)
                 this.dispatchNodeActivatedEvent(categoryId);
 
@@ -437,15 +438,15 @@
                         });
                     }
                 },
-                "create-chart": {
-                    name: "Create item",
-                    icon: (opt, $itemElement, itemKey, item) => {
-                        $itemElement.html("<span class='context-menu-icon add-chart-icon'></span> " + item.name);
-                    },
-                    callback: (itemKey, opt) => {
-                        this.createChartTreeContextCallback(itemKey, opt);
-                    }
-                },
+                //"create-chart": {
+                //    name: "Create item",
+                //    icon: (opt, $itemElement, itemKey, item) => {
+                //        $itemElement.html("<span class='context-menu-icon add-chart-icon'></span> " + item.name);
+                //    },
+                //    callback: (itemKey, opt) => {
+                //        this.createChartTreeContextCallback(itemKey, opt);
+                //    }
+                //},
                 //"upload-file": {
                 //    name: "Upload file",
                 //    icon: (opt, $itemElement, itemKey, item) => {

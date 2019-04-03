@@ -188,6 +188,7 @@ namespace KGTMachineLearningWeb.Controllers
                 configToEdit.Title = config.Title;
                 configToEdit.ProcessorId = config.ProcessorId;
                 configToEdit.ConfigurationXml = config.ConfigurationXml;
+                configToEdit.RequiresProcess = config.RequiresProcess;
 
                 try
                 {
@@ -216,7 +217,7 @@ namespace KGTMachineLearningWeb.Controllers
             }
             catch
             {
-                return View();
+                return View(config);
             }
         }
 
