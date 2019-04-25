@@ -1,0 +1,135 @@
+﻿@model DataVisualization.Models.JobModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@{
+    string statusClass = string.Empty;
+    switch (Model.Status.ToLower())
+    {
+        case "processed":
+            statusClass = "text-success";
+            break;
+        case "processedwitherror":
+            statusClass = "text-danger";
+            break;
+        case "processing":
+            statusClass = "text-primary";
+            break;
+        default:
+            break;
+    }
+}
+
+<style>
+    #output-container span {
+        display: block;
+        font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace;
+        font-size: 13px;
+    }
+</style>
+<div class="row mb-2">
+    <div class="card bg-light o-hidde" id="content-body" style="width:100%">
+        <div class="card-body pt-2">
+            <div class="row">
+                <div class="col-6">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.FileToProcess)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.FileToProcess)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.UserCreator)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.UserCreator)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </dt>
+
+                        <dd class="@statusClass" id="status">
+                            @Html.DisplayFor(model => model.Status)
+                        </dd>
+                        @if (Model.Status.ToLower() == "processed")
+                        {
+                            <dt>
+                                Download Exported Data
+                            </dt>
+                            <dd>
+                                @Html.ActionLink("Download", "GetExportedData", new { area = "", id = Model.Id }, new { @class = "btn btn-primary" })
+                            </dd>
+                        }
+                    </dl>
+                </div>
+                <div class="col-6">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.JobStartTime)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.JobStartTime)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.JobEndTime)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.JobEndTime)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.JobDuration)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.JobDuration)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="card bg-light o-hidde" id="content-body" style="width:100%">
+        <div class="card-body pt-2" id="output-container">
+            @Html.Raw(Model.Output)
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $.connection.chartHub.client.updateOutput = function (jobId, output)
+            {
+                if (jobId === @Model.Id) {
+                    $("#output-container").append(output);
+                }
+            };
+
+            $.connection.chartHub.client.setProcessStatus = function (success) {
+                $("#status").removeClass();
+                if (success) {
+                    $("#status").html("Processed");
+                    $("#status").addClass("text-success");
+                } else {
+                    $("#status").html("Processed with errors");
+                    $("#status").addClass("text-danger");
+                }
+
+            }
+        })
+    </script>
+
+}

@@ -35,17 +35,17 @@ iisreset
 During development period the trial version of Highcharts is used. This will be changes later to a licensed version after the development is done. But during the meatime the highcharts .NET wrapper will have its trial expire after one month of usage. This issue can be detected if after uploading a file to be processed on the workspace the thumbnail of the chart is empty and the chart can't be opend. Opening the the developer tools of the browser and checking the errors will also confirm this. On the request response when opening the chart you should see the message that the trial has expired. To fix this issue this step should be followed:
 
 * Uninstall the Highsoft.Highcharts nuget package from all the projects where it is used
-    * KGTMachineLearningWeb
-    * KGTMachineLearningWeb.Common
-    * KGTMachineLearningWeb.config
-    * KGTMachineLearningWeb.Domain
-    * KGTMachineLearningWeb.Models
+    * DataVisualization
+    * DataVisualization.Common
+    * DataVisualization.config
+    * DataVisualization.Domain
+    * DataVisualization.Models
 * Install latest version of Highsoft.Highcharts nuget package to all the projects again
-    * KGTMachineLearningWeb
-    * KGTMachineLearningWeb.Common
-    * KGTMachineLearningWeb.config
-    * KGTMachineLearningWeb.Domain
-    * KGTMachineLearningWeb.Models
+    * DataVisualization
+    * DataVisualization.Common
+    * DataVisualization.config
+    * DataVisualization.Domain
+    * DataVisualization.Models
 * Clean solution
 * Rebuild solution
 * Re-deploy application
@@ -60,9 +60,9 @@ During development period the trial version of Highcharts is used. This will be 
 
 ### Creating the database
 
-The project uses Entity Framework code first approach for managing the database. To create the database first put the correct connection string into the project Web.config in the root of KGTMachineLearningWeb.
+The project uses Entity Framework code first approach for managing the database. To create the database first put the correct connection string into the project Web.config in the root of DataVisualization.
 
-Then open the project into Visual Studio and open Package Manager Console. In the console select as default project KGTMachineLearningWeb.Context. Into the console type **update-database** and press enter.
+Then open the project into Visual Studio and open Package Manager Console. In the console select as default project DataVisualization.Context. Into the console type **update-database** and press enter.
 
 ![Package manager console in Visual Studio](./PackageManagerConsole.PNG)
 
@@ -72,9 +72,9 @@ This will create the database based on the connection string and also create all
 
 ### Updating the database schema ####
 
-As mentioned previously the project uses the code first approach in creating the database schema. The table models are all saved in project **KGTMachineLearningWeb.Models**. 
+As mentioned previously the project uses the code first approach in creating the database schema. The table models are all saved in project **DataVisualization.Models**. 
 
-To add a new table create a new class in this project and than go to the class KGTContext in **KGTMachineLearningWeb.Context** and add property
+To add a new table create a new class in this project and than go to the class KGTContext in **DataVisualization.Context** and add property
 
 ```
 public DbSet<MyNewTable> MyNewTable { get; set; }

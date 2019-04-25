@@ -5,7 +5,9 @@ packages/
 .vs/
 */bin/*
 */obj/*
-KGTMachineLearningWeb/TempChartThumbnails/
-KGTMachineLearningWeb/ChartData/
-KGTMachineLearningWeb/ExportedData/
+DataVisualization/TempChartThumbnails/
+DataVisualization/ChartData/
+DataVisualization/ExportedData/
 .hg*
+/DataVisualization/App_Data/DataVisualization.mdf
+/DataVisualization/App_Data/DataVisualization_log.ldf

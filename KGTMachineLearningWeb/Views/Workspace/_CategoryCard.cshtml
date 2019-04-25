@@ -1,9 +1,0 @@
-﻿@model KGTMachineLearningWeb.Models.Workspace.CategoryModel
-
-<div class="card bg-transparent category-card d-block" title="@Model.Description" data-category='@Html.Raw(Json.Encode(Model))' data-is-category="true">
-    <div class="card-body p-0 @Model.Icon">
-    </div>
-    <div class="card-footer crop-text-3" title="@Model.Title">
-        <small>@Model.Title</small>
-    </div>
-</div>

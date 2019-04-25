@@ -1,0 +1,79 @@
+﻿@using DataVisualization.Common.Helper
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/jquery.fancytree-css/skin-win8/ui.fancytree.min.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+</head>
+<body>
+
+    @Html.Partial("_Header")
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 p-0">
+                <div id="alert-container">
+                    <!--Intentionaly left empty. Used to insert system alerts from KGT.Helper.showAlert() -->
+                </div>
+            </div>
+        </div>
+
+        @RenderBody()
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery-ui")
+    @Scripts.Render("~/bundles/signalR")
+    <script src="~/signalr/hubs"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/fancytree")
+    @Scripts.Render("~/bundles/common")
+    @Scripts.Render("~/bundles/dataTables")
+
+    <script>
+        $(function () {
+            var chartHub = $.connection.chartHub;
+
+            chartHub.client.showAlert = (message, alertClass) => {
+                KGT.Helper.showAlert(message, alertClass);
+            };
+
+            chartHub.client.updateBadge = (runningJobs) => {
+
+                $("#my-jobs-link a .badge").remove();
+                if (runningJobs != 0)  {
+                    let $badge = $(`<span class="badge badge-pill badge-danger">${runningJobs}</span>`);
+                    $("#my-jobs-link a").append($badge);
+                }
+
+
+            }
+
+            chartHub.client.showJobStatusUpdate = (message, alertClass, jobId) => {
+                let jobLink = $("<a/>", {
+                    href: `@Url.Action("Details","Jobs",new { id = "" })/${jobId}`,
+                    target: "_blank",
+                    text: "here"
+                });
+
+                let text = `${message} Click ${jobLink[0].outerHTML} for details.`;
+
+                KGT.Helper.showAlert(text, alertClass);
+            }
+
+            $.connection.hub.start().done(() => {
+                chartHub.server.checkJobs();
+            });
+        })
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

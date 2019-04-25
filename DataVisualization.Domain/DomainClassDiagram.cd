@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DataVisualization.Domain.Services.BaseDomain&lt;TId, TEntity&gt;">
+    <Position X="13" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAYAAIAAAAACAABAAAAAAAAAAAEAAAAAAgAAAAAEAIA=</HashCode>
+      <FileName>Services\BaseDomain.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DataVisualization.Domain.Services.CategoryDomain">
+    <Position X="2.75" Y="10" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAMgBAAAAAAAAAAAAAgAQAAMAAAAAAgAAEiA=</HashCode>
+      <FileName>Services\CategoryDomain.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DataVisualization.Domain.Services.ChartDataDomain">
+    <Position X="5.75" Y="10" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EACAABAAAAAAIAAAAAIEACAAIAAAIQEqAAIAQAACCAA=</HashCode>
+      <FileName>Services\ChartDataDomain.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DataVisualization.Domain.Services.ChartObjectDomain">
+    <Position X="8.75" Y="10" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAJAACAAAgAAAgEAIAAAAAAAAAE=</HashCode>
+      <FileName>Services\ChartObjectDomain.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DataVisualization.Domain.Services.ChartsConfigurationDomain">
+    <Position X="11.75" Y="10" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\ChartsConfigurationDomain.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DataVisualization.Domain.Services.JobDomain">
+    <Position X="15.25" Y="10" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAIAAQAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Services\JobDomain.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DataVisualization.Domain.Services.ProcessorConfigurationDomain">
+    <Position X="18.25" Y="10" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\ProcessorConfigurationDomain.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DataVisualization.Domain.Services.RoleDomain">
+    <Position X="21.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Services\RoleDomain.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DataVisualization.Domain.Services.UserDomain">
+    <Position X="23.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\UserDomain.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="DataVisualization.Domain.Contracts.IBaseDomain&lt;TId, TEntity&gt;">
+    <Position X="12.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAYAAIAAAAAAAABAAAAAAAAAAAEAAAAAAgAAAAAEAIA=</HashCode>
+      <FileName>Contracts\IBaseDomain.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DataVisualization.Domain.Contracts.ICategoryDomain">
+    <Position X="3.5" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAMgBAAAAAAAAAAAAAgAQAAMAAAAAAgAAEgA=</HashCode>
+      <FileName>Contracts\ICategoryDomain.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DataVisualization.Domain.Contracts.IChartDataDomain">
+    <Position X="6.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Contracts\IChartDataDomain.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DataVisualization.Domain.Contracts.IChartObjectDomain">
+    <Position X="8.5" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAACAAAgAAAAEAIAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\IChartObjectDomain.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DataVisualization.Domain.Contracts.IChartsConfigurationDomain">
+    <Position X="11.25" Y="3.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\IChartsConfigurationDomain.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DataVisualization.Domain.Contracts.IJobDomain">
+    <Position X="14.5" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAIAAQAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\IJobDomain.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DataVisualization.Domain.Contracts.IProcessorConfigurationDomain">
+    <Position X="17.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\IProcessorConfigurationDomain.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DataVisualization.Domain.Contracts.IRoleDomain">
+    <Position X="19.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Contracts\IRoleDomain.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DataVisualization.Domain.Contracts.IUserDomain">
+    <Position X="21.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\IUserDomain.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

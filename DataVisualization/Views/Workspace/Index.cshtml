@@ -1,0 +1,133 @@
+﻿@Styles.Render("~/Content/contextMenu")
+
+@{
+    ViewBag.Title = "Workspace";
+}
+
+<div class="row" id="content-body">
+
+    <div class="col-12 p-0">
+        <ol class="breadcrumb" id="breadcrumb"></ol>
+    </div>
+
+    <div class="card bg-light" id="categoriesTreeColumn">
+        <div class="card-body">
+            @Html.Partial("_CategoryTree")
+        </div>
+    </div>
+
+    <div class="card bg-light o-hidde" id="categoriesContentColumn">
+        <div class="card-header pb-0">
+            <div class="form-group float-left">
+                <input type="text" class="form-control" id="search-category-contents" placeholder="Search">
+            </div>
+
+            <div class="float-left ml-2">
+                <button id="upload-file" class="btn btn-sm btn-outline-primary mr-2">
+                    <i class="fas fa-file-upload"></i>
+                    Upload file to process
+                </button>
+            </div>
+
+            <div class="categories-content-options float-right">
+                <button id="open-sync-charts" class="btn btn-default btn-sm btn-outline-secondary mr-2">
+                    <i class="fas fa-sync"></i>
+                    Sync opened charts
+                </button>
+
+                <div id="viewTypeSelector" class="btn-group btn-group-sm" role="group" aria-label="View type">
+                    <button id="grid-view" class="btn btn-default" data-view-type="@DataVisualization.Common.Enum.Enumerators.CategoryViewType.Grid.ToString()">
+                        <i class="fas fa-th"></i>
+                        Grid
+                    </button>
+                    <button id="list-view" class="btn btn-default" data-view-type="@DataVisualization.Common.Enum.Enumerators.CategoryViewType.List.ToString()">
+                        <i class="fas fa-list"></i>
+                        List
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body pt-2">
+            <div class="row" id="categories-container">
+                <!--Will be filled with category contents on tree node select-->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@Html.Partial("Modals/_EditDescriptionModal")
+@Html.Partial("Modals/_CreateChartModal")
+@Html.Partial("Modals/_UploadChartDataModal")
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/contextMenu")
+    @Scripts.Render("~/bundles/workspace")
+
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/map.js"></script>
+    <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+    <script src="https://code.highcharts.com/modules/boost-canvas.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/boost.js"></script>
+
+    @Scripts.Render("~/bundles/toastr")
+    @*@Scripts.Render("~/bundles/charts")*@
+
+    <script src="~/Scripts/charts/chart-service.js"></script>
+    <script src="~/Scripts/charts/chart-zoom-fix.js"></script>
+    <script src="~/Scripts/charts/ChartWindowManager.js"></script>
+    <script src="~/Scripts/charts/highcharts-plot-size-plugin.js"></script>
+    <script src="~/Scripts/charts/x-synchronized-charts.js"></script>
+
+    <script src="~/Scripts/split.min.js"></script>
+    <script>
+        const IS_ADMIN = "@User.IsInRole("Admin")".toLowerCase() === "true";
+
+        Split(['#categoriesTreeColumn', '#categoriesContentColumn'],
+            {
+                sizes: [33,67]
+            });
+
+        let workspaceApi = {
+            treeSourceUrl: "@Url.Action("GetChildCategoriesNodes")",
+            categoryContentsUrl: "@Url.Action("Category",new {id=""})",
+            moveCategoryUrl: "@Url.Action("MoveCategory")",
+            deleteCategoryUrl: "@Url.Action("DeleteCategory")",
+            renameCategoryUrl: "@Url.Action("RenameCategory")",
+            changeChartObjectCategoryUrl: "@Url.Action("ChangeChartObjectCategory")",
+            deleteChartObjectUrl: "@Url.Action("DeleteChartObject")",
+            renameChartObjectUrl: "@Url.Action("RenameChartObject")",
+            createCategoryUrl: "@Url.Action("CreateCategory")",
+            searchCategoriesUrl: "@Url.Action("SearchCategories")",
+            editCategoryDescriptionUrl: "@Url.Action("EditCategoryDescription")",
+            editChartObjectDescriptionUrl: "@Url.Action("EditChartObjectDescription")",
+            getSharedCategories: "@Url.Action("GetSharedCategoriesNodes")",
+            copyCategoryUrl: "@Url.Action("CopyCategory")",
+            copyChartObjectUrl: "@Url.Action("CopyChartObject")",
+            createChartObjectUrl: "@Url.Action("CreateChartObject")"
+        };
+
+
+        $(function () {
+            const categoriesService = new CategoriesService();
+            const viewType = "@(ViewData.ContainsKey("viewType") ? (string)ViewData["viewType"] : DataVisualization.Common.Enum.Enumerators.CategoryViewType.Grid.ToString())";
+
+            const workspaceManager = new WorkspaceManager(
+                categoriesService,
+                "#categoriesTree",
+                "#sharedCategoryTree",
+                "#categories-container",
+                viewType,
+                @ViewData["hierarchy"]);
+
+
+            workspaceManager.initWorkspace();
+        });
+
+
+    </script>
+}

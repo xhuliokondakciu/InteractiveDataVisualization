@@ -1,0 +1,31 @@
+﻿@model DataVisualization.Models.Workspace.CategoryContentModel
+
+<table id="categoryContentsTable" class="display hover compact" >
+    <thead>
+        <tr>
+            <th class="icon-col"></th>
+            <th class="name-col">Name</th>
+            <th class="description-col">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var folder in Model.Categories)
+        {
+            <tr class="category-row" data-category='@Html.Raw(Json.Encode(folder))' data-is-category="true">
+                <td class="@folder.Icon icon-cell"></td>
+                <td class="title-cell" title="@folder.Title">@folder.Title</td>
+                <td class="description-cell" title="@folder.Description"><small class="crop-text-3">@folder.Description</small></td>
+            </tr>
+        }
+
+        @foreach (var chartObject in Model.Charts)
+        {
+            <tr class="chart-object-row" data-chart-object='@Html.Raw(Json.Encode(chartObject))' data-is-category="false" id="chart-@chartObject.Id">
+                <td class="chart-thumbnail-small icon-cell" style="background-image:url('/Chart/@chartObject.Id/Thumbnail')"></td>
+                <td class="title-cell" title="@chartObject.Title">@chartObject.Title</td>
+                <td class="description-cell"><small class="crop-text-3">@chartObject.Description</small></td>
+            </tr>
+        }
+    </tbody>
+</table>
