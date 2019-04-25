@@ -72,7 +72,7 @@
       <HintPath>..\packages\Hangfire.Unity.3.0.0\lib\net45\Hangfire.Unity.dll</HintPath>
     </Reference>
     <Reference Include="Highcharts.Web.Mvc, Version=7.0.1.0, Culture=neutral, PublicKeyToken=90b74bd27a557bd3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Highsoft.Highcharts.7.0.1\lib\net40\Highcharts.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Highsoft.Highcharts.7.0.3.10\lib\net40\Highcharts.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -395,6 +395,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Grant.sql" />
     <Content Include="Scripts\admin\users\user-manager.js" />
     <Content Include="Scripts\admin\users\user-service.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -506,6 +507,8 @@
     <Content Include="Areas\Admin\Views\User\Modals\_ResetPasswordModal.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\MLWeb.pubxml" />
+    <None Include="Properties\PublishProfiles\ThesisXhulioPublish.pubxml" />
+    <None Include="Properties\PublishProfiles\WebDeploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

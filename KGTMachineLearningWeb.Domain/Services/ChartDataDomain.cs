@@ -400,7 +400,7 @@ namespace KGTMachineLearningWeb.Domain.Services
                     if (chart.ChartDataSource == null)
                         continue;
 
-                    var chartOption = HighchartsFactory.GetHighchartOptionsForThumbnail(chart.ChartDataSource);
+                    var chartOption = HighchartsFactory.GetHighchartOptions(chart.ChartDataSource);
                     CreateThumbnailConfig(chartOption, thumbConfigPath);
 
                     using (var process = RunCreateThumbnailProcess(thumbConfigPath, thumbImgPath))

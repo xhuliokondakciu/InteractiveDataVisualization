@@ -4,6 +4,7 @@ using KGTMachineLearningWeb.Models.Identity;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 
@@ -40,7 +41,7 @@ namespace KGTMachineLearningWeb.Models.Jobs
         public int ChartsConfigId { get; set; }
 
         public virtual ChartsConfiguration ChartsConfig { get; set; }
-
+        
         public string UserCreatorId { get; set; }
 
         [JsonIgnore]

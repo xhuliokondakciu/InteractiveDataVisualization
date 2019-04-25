@@ -23,6 +23,7 @@ using static KGTMachineLearningWeb.Common.Enum.Enumerators;
 namespace KGTMachineLearningWeb.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin")]
+    [CustomErrorHandle]
     public class UserController : BaseController
     {
         private readonly IUserDomain _userDomain;
@@ -258,23 +259,30 @@ namespace KGTMachineLearningWeb.Areas.Admin.Controllers
         [AjaxOnly]
         public ActionResult Delete(string id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicationUser applicationUser = _userDomain.GetById(id);
-            if (applicationUser == null)
-            {
-                return HttpNotFound();
-            }
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                ApplicationUser applicationUser = _userDomain.GetById(id);
+                if (applicationUser == null)
+                {
+                    return HttpNotFound();
+                }
 
-            var isDeleted = _userDomain.Delete(id);
-            if (!isDeleted)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+                var isDeleted = _userDomain.Delete(id);
+                if (!isDeleted)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
 
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public ActionResult GetRoles()

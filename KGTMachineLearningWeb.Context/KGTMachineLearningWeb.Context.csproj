@@ -111,6 +111,14 @@
     <Compile Include="Migrations\201904031829429_configurable chart tyhpe.Designer.cs">
       <DependentUpon>201904031829429_configurable chart tyhpe.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904081454019_job status cascade non.cs" />
+    <Compile Include="Migrations\201904081454019_job status cascade non.Designer.cs">
+      <DependentUpon>201904081454019_job status cascade non.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904081513273_job status cascade.cs" />
+    <Compile Include="Migrations\201904081513273_job status cascade.Designer.cs">
+      <DependentUpon>201904081513273_job status cascade.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -167,6 +175,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904031829429_configurable chart tyhpe.resx">
       <DependentUpon>201904031829429_configurable chart tyhpe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904081454019_job status cascade non.resx">
+      <DependentUpon>201904081454019_job status cascade non.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904081513273_job status cascade.resx">
+      <DependentUpon>201904081513273_job status cascade.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

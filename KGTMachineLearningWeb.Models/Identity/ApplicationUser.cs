@@ -1,4 +1,5 @@
 ﻿using KGTMachineLearningWeb.Models.ChartConfiguration;
+using KGTMachineLearningWeb.Models.Jobs;
 using KGTMachineLearningWeb.Models.Workspace;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -14,6 +15,8 @@ namespace KGTMachineLearningWeb.Models.Identity
     public class ApplicationUser : IdentityUser
     {
         public virtual ICollection<Category> OwnedCategories { get; set; }
+
+        public virtual ICollection<JobStatus> Jobs { get; set; }
 
         public virtual ICollection<ChartsConfiguration> ChartsConfigurations { get; set; }
 

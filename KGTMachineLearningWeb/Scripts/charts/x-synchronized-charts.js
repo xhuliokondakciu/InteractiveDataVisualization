@@ -315,6 +315,8 @@ var SyncCharts = (function ($, H) {
         };
 
         var showToastMessage = function (infoHtml, infoTitle = "") {
+            if (infoHtml == "")
+                infoHtml = " ";
             if (!data.toastr.element || data.toastr.element.is(':hidden')) {
                 data.toastr.element = toastr.info(infoHtml, infoTitle, data.toastr.option);
                 data.toastr.element.find('button').bind('click', data.toastr.onCloseClick);
@@ -351,7 +353,7 @@ var SyncCharts = (function ($, H) {
             if (!currentPoint)
                 return "";
 
-            let dataInfoTitle = `<div style="font-size:16px"><b>${H.dateFormat('%a %d %b %H:%M:%S', currentPoint.x)}</b></div><br/>`;
+            let dataInfoTitle = `<div style="font-size:16px"><b>${H.dateFormat('%a %d %b, %Y  %H:%M:%S', currentPoint.x)}</b></div><br/>`;
 
             let dataInfoText = dataInfoTitle;
 
@@ -430,7 +432,7 @@ var SyncCharts = (function ($, H) {
                     cWindow.resizeTo(e.target.outerWidth, e.target.outerHeight);
                 }
                 let chartHeight = 0.80 * e.target.outerHeight;
-                let chartWidth = e.target.outerWidth;
+                let chartWidth = e.target.outerWidth * 0.95;
                 chartToResize.setSize(chartWidth, chartHeight);
             });
             data.listenForResize = true;

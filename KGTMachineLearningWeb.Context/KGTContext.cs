@@ -56,10 +56,20 @@ namespace KGTMachineLearningWeb.Context
                 .WithRequired(s => s.ChartDataSource)
                 .WillCascadeOnDelete(true);
 
-            modelBuilder.Entity<ChartsConfiguration>()
-                .HasRequired(cc => cc.User)
-                .WithMany(u => u.ChartsConfigurations)
+            modelBuilder.Entity<ApplicationUser>()
+                .HasMany(u => u.ChartsConfigurations)
+                .WithRequired(c => c.User)
                 .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .HasMany(u => u.Jobs)
+                .WithRequired(j => j.UserCreator)
+                .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<JobStatus>()
+                .HasRequired(j => j.ChartsConfig)
+                .WithMany()
+                .WillCascadeOnDelete(false);
         }
 
         public static KGTContext Create()

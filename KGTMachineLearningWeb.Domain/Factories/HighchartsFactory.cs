@@ -19,8 +19,8 @@ namespace KGTMachineLearningWeb.Domain.Factories
                 Chart = new Chart
                 {
                     Type = chartType,
-                    Panning = true,
-                    BackgroundColor = BACKGROUND_CHART_COLOR
+                    Panning = true
+                    //BackgroundColor = BACKGROUND_CHART_COLOR
                 },
                 XAxis = new List<XAxis>
                 {
@@ -155,6 +155,7 @@ namespace KGTMachineLearningWeb.Domain.Factories
             var dataColumns = dataSource.Series.Select(s =>
             {
                 var data = new CsvFileHelper(s.FilePath).ParseSingle<string>(s.ColumnName);
+                //Adding the series name as the first element
                 var column = new List<object> { s.Name };
                 column.AddRange(data.Values);
                 return column;
@@ -169,6 +170,7 @@ namespace KGTMachineLearningWeb.Domain.Factories
                 Columns = columns,
                 FirstRowAsNames = true
             };
+            
 
             return chartOptions;
         }
