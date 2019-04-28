@@ -345,17 +345,17 @@ namespace DataVisualization.Domain.Services
                 List<SerieConfiguration> series;
                 if (jobStatus.ChartsConfig.RequiresProcess)
                 {
-                    series = chart.Series.Select(s =>
+                    series = chart.SeriesList.Select(s =>
                         new SerieConfiguration(
-                            s.SerieName,
+                            s.SeriesName,
                             Path.Combine(jobStatus.ChartDataDirectory, s.FileName),
                             s.ColumnName)).ToList();
                 }
                 else
                 {
-                    series = chart.Series.Select(s =>
+                    series = chart.SeriesList.Select(s =>
                         new SerieConfiguration(
-                            s.SerieName,
+                            s.SeriesName,
                             Path.Combine(jobStatus.ChartDataDirectory, jobStatus.SystemFileName),
                             s.ColumnName)).ToList();
                 }

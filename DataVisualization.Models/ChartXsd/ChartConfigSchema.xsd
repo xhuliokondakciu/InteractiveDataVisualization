@@ -28,14 +28,14 @@
                         </xs:attribute>
                       </xs:complexType>
                     </xs:element>
-                    <xs:element name="Series">
+                    <xs:element name="SeriesList">
                       <xs:complexType>
                         <xs:sequence>
-                          <xs:element maxOccurs="unbounded" minOccurs="1" name="Serie">
+                          <xs:element maxOccurs="unbounded" minOccurs="1" name="Series">
                             <xs:complexType>
                               <xs:attribute name="FileName" type="xs:NCName" use="required" />
                               <xs:attribute name="ColumnName" type="xs:NCName" use="required" />
-                              <xs:attribute name="SerieName" type="xs:string" use="required" />
+                              <xs:attribute name="SeriesName" type="xs:string" use="required" />
                             </xs:complexType>
                           </xs:element>
                         </xs:sequence>

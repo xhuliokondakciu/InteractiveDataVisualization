@@ -97,7 +97,7 @@ public partial class ChartsConfigSchemaChart {
     
     private ChartsConfigSchemaChartChartType chartTypeField;
     
-    private ChartsConfigSchemaChartSerie[] seriesField;
+    private ChartsConfigSchemaChartSeries[] seriesListField;
     
     private string chartNameField;
     
@@ -114,13 +114,13 @@ public partial class ChartsConfigSchemaChart {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-    [System.Xml.Serialization.XmlArrayItemAttribute("Serie", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
-    public ChartsConfigSchemaChartSerie[] Series {
+    [System.Xml.Serialization.XmlArrayItemAttribute("Series", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
+    public ChartsConfigSchemaChartSeries[] SeriesList {
         get {
-            return this.seriesField;
+            return this.seriesListField;
         }
         set {
-            this.seriesField = value;
+            this.seriesListField = value;
         }
     }
     
@@ -193,13 +193,13 @@ public enum ChartsConfigSchemaChartChartTypeValue {
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
-public partial class ChartsConfigSchemaChartSerie {
+public partial class ChartsConfigSchemaChartSeries {
     
     private string fileNameField;
     
     private string columnNameField;
     
-    private string serieNameField;
+    private string seriesNameField;
     
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute(DataType="NCName")]
@@ -225,12 +225,12 @@ public partial class ChartsConfigSchemaChartSerie {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string SerieName {
+    public string SeriesName {
         get {
-            return this.serieNameField;
+            return this.seriesNameField;
         }
         set {
-            this.serieNameField = value;
+            this.seriesNameField = value;
         }
     }
 }

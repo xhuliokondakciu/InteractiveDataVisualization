@@ -3,10 +3,10 @@
   <Charts>
     <Chart ChartName="">
       <ChartType Value="" />
-      <Series>
-        <Serie FileName="" ColumnName="" SerieName="" />
+      <SeriesList>
+        <Series FileName="" ColumnName="" SeriesName="" />
         <!-- Insert additional series here -->
-      </Series>
+      </SeriesList>
     </Chart>
     <!-- Insert additional charts here -->
   </Charts>
