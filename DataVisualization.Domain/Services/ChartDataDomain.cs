@@ -168,6 +168,7 @@ namespace DataVisualization.Domain.Services
                     jobStatus.StartTime = DateTimeOffset.Now;
 
                     var proc = CreateChartDataProcess(jobStatus.UnprocessedDataFilePath, jobStatus.ChartDataDirectory, jobStatus.ChartsConfig);
+                    _logger.Info($"Starting process {proc.StartInfo.FileName} with parameters {proc.StartInfo.Arguments}");
 
                     proc.Start();
 
@@ -176,12 +177,22 @@ namespace DataVisualization.Domain.Services
                     
 
                     StreamReader stdOut = proc.StandardOutput;
+                    StreamReader stdError = proc.StandardError;
                     //Synchronous read is causing issues - either for quickyl finishing jobs with lot of output (EndOfStream hangs) or for slow output processes (Peek() hangs)
                     Task stdoutReadingTask = Task.Factory.StartNew(() =>
                     {
                         while (!stdOut.EndOfStream)
                         {
                             var line = stdOut.ReadLine();
+                            output.AppendLine(line);
+                            jobStatus.JobOutput = output.ToString();
+                            _jobDomain.Update(jobStatus);
+                            _chartHubManager.UpdateJobOutput(userName, jobStatus.Id, line);
+                        }
+
+                        while (!stdError.EndOfStream)
+                        {
+                            var line = stdError.ReadLine();
                             output.AppendLine(line);
                             jobStatus.JobOutput = output.ToString();
                             _jobDomain.Update(jobStatus);

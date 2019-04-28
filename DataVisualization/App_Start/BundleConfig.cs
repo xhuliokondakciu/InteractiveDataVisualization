@@ -10,7 +10,7 @@ namespace DataVisualization
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-3.3.1.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -24,7 +24,7 @@ namespace DataVisualization
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/signalR").Include(
-                        "~/Scripts/jquery.signalR-{version}.js"));
+                        "~/Scripts/jquery.signalR-2.4.0.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/charts").IncludeDirectory(
                 "~/Scripts/charts", "*.js"));
@@ -41,7 +41,7 @@ namespace DataVisualization
                 "~/Scripts/common", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery-ui").Include(
-                "~/Scripts/jquery-ui-{version}.js"));
+                "~/Scripts/jquery-ui-1.12.1.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fancytree").Include(
                 "~/Scripts/jquery.fancytree-all.js"));

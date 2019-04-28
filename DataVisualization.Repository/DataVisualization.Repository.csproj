@@ -7,8 +7,8 @@
     <ProjectGuid>{B2E6CBBF-451C-4901-985E-26BAADB28946}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KGTMachineLearningWeb.Repository</RootNamespace>
-    <AssemblyName>KGTMachineLearningWeb.Repository</AssemblyName>
+    <RootNamespace>DataVisualization.Repository</RootNamespace>
+    <AssemblyName>DataVisualization.Repository</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

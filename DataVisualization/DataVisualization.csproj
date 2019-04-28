@@ -13,8 +13,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KGTMachineLearningWeb</RootNamespace>
-    <AssemblyName>KGTMachineLearningWeb</AssemblyName>
+    <RootNamespace>DataVisualization</RootNamespace>
+    <AssemblyName>DataVisualization</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -60,6 +60,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Hangfire.Core, Version=1.6.21.0, Culture=neutral, processorArchitecture=MSIL">
@@ -603,19 +604,6 @@
     <Content Include="Views\ChartsConfiguration\Edit.cshtml" />
     <Content Include="Views\ChartsConfiguration\Create.cshtml" />
   </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.3.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Scripts\charts\ChartWindowManager.ts" />
-    <TypeScriptCompile Include="Scripts\index.d.ts" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataVisualization.Common\DataVisualization.Common.csproj">
       <Project>{9f5cb60d-ef56-4e76-b367-af1df6780314}</Project>
@@ -634,10 +622,23 @@
       <Name>DataVisualization.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataVisualization.Models\DataVisualization.Models.csproj">
-      <Project>{E426203F-7652-4AE7-BF8E-EFD8C2AE9F82}</Project>
+      <Project>{e426203f-7652-4ae7-bf8e-efd8c2ae9f82}</Project>
       <Name>DataVisualization.Models</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\charts\ChartWindowManager.ts" />
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
