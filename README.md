@@ -1,6 +1,6 @@
 # KGTLearningMachineWeb
 
-This is the Master Thesis project of Xhulio Kondakciu. This application creates a dynamic interactive interface for displaying different set of charts and graphs. The purpose is to display in an interactive way data of Deep Neural Networks for time series.
+This is the Master Thesis project of Xhulio Kondakciu. This application creates a dynamic interactive interface for displaying different set of charts and graphs. The purpose is to display, in an interactive way, data of Deep Neural Networks for time series.
 
 ## Getting Started
 
@@ -22,53 +22,15 @@ npm install highcharts-export-server -g
 
 If thumbnails are not being created after deployment check if the highcharts-export-server command is available to the user under which the web page is running in IIS 
 
-## How to fix Highcharts trial expired
-
-### Fix for highcharts export server
-
-npm uninstall highcharts-export-server -g
-npm install highcharts-export-server -g
-iisreset
-
-### Fix for highcharts .NET wrapper
-
-During development period the trial version of Highcharts is used. This will be changes later to a licensed version after the development is done. But during the meatime the highcharts .NET wrapper will have its trial expire after one month of usage. This issue can be detected if after uploading a file to be processed on the workspace the thumbnail of the chart is empty and the chart can't be opend. Opening the the developer tools of the browser and checking the errors will also confirm this. On the request response when opening the chart you should see the message that the trial has expired. To fix this issue this step should be followed:
-
-* Uninstall the Highsoft.Highcharts nuget package from all the projects where it is used
-    * DataVisualization
-    * DataVisualization.Common
-    * DataVisualization.config
-    * DataVisualization.Domain
-    * DataVisualization.Models
-* Install latest version of Highsoft.Highcharts nuget package to all the projects again
-    * DataVisualization
-    * DataVisualization.Common
-    * DataVisualization.config
-    * DataVisualization.Domain
-    * DataVisualization.Models
-* Clean solution
-* Rebuild solution
-* Re-deploy application
-
-### On build server
-
-* locate local nuget.exe CLI cmd tool (e.g. C:\TeamCity\buildAgent\tools\NuGet.CommandLine.4.8.1\tools)
-* run: nuget locals all -clear
-* clear the checkout and build dirs for affected build configuration
-
-## Deployment
+## Running the application
 
 ### Creating the database
 
-The project uses Entity Framework code first approach for managing the database. To create the database first put the correct connection string into the project Web.config in the root of DataVisualization.
+The project uses Entity Framework code first approach for managing the database. To create the database first put the correct connection string into the project Web.config in the root of DataVisualization project.
 
-Then open the project into Visual Studio and open Package Manager Console. In the console select as default project DataVisualization.Context. Into the console type **update-database** and press enter.
-
-![Package manager console in Visual Studio](./PackageManagerConsole.PNG)
+Then open Package Manager Console. In the console select as default project **DataVisualization.Context**. Into the console type **update-database** and press enter.
 
 This will create the database based on the connection string and also create all the tables. It will also run the seed method which will add some initial data into the database.
-
-![Package manager console in Visual Studio](./PackageManagerConsoleAfterUpdate.PNG)
 
 ### Updating the database schema ####
 
