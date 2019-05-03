@@ -1,4 +1,4 @@
-# KGTLearningMachineWeb
+# DataVisualization
 
 This is the Master Thesis project of Xhulio Kondakciu. This application creates a dynamic interactive interface for displaying different set of charts and graphs. The purpose is to display, in an interactive way, data of Deep Neural Networks for time series.
 
@@ -36,7 +36,7 @@ This will create the database based on the connection string and also create all
 
 As mentioned previously the project uses the code first approach in creating the database schema. The table models are all saved in project **DataVisualization.Models**. 
 
-To add a new table create a new class in this project and than go to the class KGTContext in **DataVisualization.Context** and add property
+To add a new table create a new class in this project and than go to the class **VisContext** in **DataVisualization.Context** and add property
 
 ```
 public DbSet<MyNewTable> MyNewTable { get; set; }
