@@ -16,16 +16,13 @@ namespace DataVisualization.Domain.Services
         private IChartObjectRepository ChartObjectRepository => repository as IChartObjectRepository;
 
         private readonly ICategoryDomain _categoryDomain;
-        private readonly IPmPredictionsDomain _predictionsDomain;
 
         public ChartObjectDomain(
             IChartObjectRepository repository,
-            ICategoryDomain categoryDomain,
-            IPmPredictionsDomain predictionsDomain
+            ICategoryDomain categoryDomain
            ) : base(repository)
         {
             _categoryDomain = categoryDomain;
-            _predictionsDomain = predictionsDomain;
         }
 
         public override ChartObject Add(ChartObject entity)
@@ -123,25 +120,6 @@ namespace DataVisualization.Domain.Services
             }
 
             return chartObject.Title;
-        }
-
-        //ToDo: Will change when getting chart config from db
-        private Highcharts GetChartOption(int chartId)
-        {
-            var id = chartId % 4;
-            switch (id)
-            {
-                case 0:
-                    return _predictionsDomain.GetInputs();
-                case 1:
-                    return _predictionsDomain.GetAsk();
-                case 2:
-                    return _predictionsDomain.GetOutput();
-                case 3:
-                    return _predictionsDomain.GetDesiredPredictionsBinaryHeatmap();
-                default:
-                    return _predictionsDomain.GetPredictedBusinessYield();
-            }
         }
     }
 }

@@ -409,5 +409,19 @@ namespace DataVisualization.Controllers
                     Value = c.Id.ToString()
                 });
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _categoryDomain.Dispose();
+                _chartDataDomain.Dispose();
+                _chartObjectDomain.Dispose();
+                _chartsConfigDomain.Dispose();
+                _userDomain.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
     }
 }

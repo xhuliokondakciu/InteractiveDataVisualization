@@ -24,7 +24,6 @@ namespace DataVisualization.Config
 
         private static void RegisterDomains(IUnityContainer container)
         {
-            container.RegisterType<IPmPredictionsDomain, PmPredictionsDomain>();
             container.RegisterType<IHighChartsDomain, HighChartsDomain>();
             container.RegisterType<INeuralNetworkDomain, NeuralNetworkDomain>();
             container.RegisterType<ICategoryDomain, CategoryDomain>();

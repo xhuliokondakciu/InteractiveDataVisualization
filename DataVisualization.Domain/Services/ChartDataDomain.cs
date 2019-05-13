@@ -416,7 +416,11 @@ namespace DataVisualization.Domain.Services
 
                     using (var process = RunCreateThumbnailProcess(thumbConfigPath, thumbImgPath))
                     {
-                        process.WaitForExit();
+                        process.WaitForExit(300000);
+                        if (!process.HasExited)
+                        {
+                            process.Kill();
+                        }
                         if (process.ExitCode == 0 && File.Exists(thumbImgPath))
                         {
                             chart.Thumbnail.SetThumbnailImage(thumbImgPath);

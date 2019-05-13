@@ -47,7 +47,7 @@ namespace DataVisualization.Domain.Hubs
         public void ShowSuccessProcessAlert(string userName, JobStatus jobStatus)
         {
             var duration = jobStatus.GetProcessDuration();
-            var message = $"File \"{jobStatus.UserFileName}\" processed successfully.";
+            var message = $"File \"{jobStatus.UserFileName}\" processed successfully. If the category doesn't appear please try to refreash the page.";
             _context.Clients.User(userName).showJobStatusUpdate(message, UserAlertClasses.SUCCESS, jobStatus.Id);
         }
 

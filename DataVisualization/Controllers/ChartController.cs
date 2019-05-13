@@ -1,15 +1,14 @@
-﻿using Highsoft.Web.Mvc.Charts;
-using DataVisualization.Attributes;
+﻿using DataVisualization.Attributes;
 using DataVisualization.Domain.Contracts;
 using DataVisualization.Domain.Factories;
 using DataVisualization.Domain.Hubs;
 using DataVisualization.Models;
 using DataVisualization.Models.Jobs;
+using Highsoft.Web.Mvc.Charts;
 using Microsoft.AspNet.Identity;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -19,7 +18,6 @@ namespace DataVisualization.Controllers
     [CustomErrorHandle]
     public class ChartController : BaseController
     {
-        private readonly IPmPredictionsDomain _pmPredictionsDomain;
         private readonly INeuralNetworkDomain _neuralNetworkDomain;
         private readonly HighsoftNamespace _highsoft;
         private readonly IChartObjectDomain _chartObjectDomain;
@@ -28,7 +26,6 @@ namespace DataVisualization.Controllers
         private readonly ILogger _logger;
 
         public ChartController(
-            IPmPredictionsDomain pmPredictionsDomain,
             HighsoftNamespace highsoft,
             INeuralNetworkDomain neuralNetworkDomain,
             IChartObjectDomain chartObjectDomain,
@@ -36,7 +33,6 @@ namespace DataVisualization.Controllers
             ChartHubManager chartHubManager,
             ILogger logger)
         {
-            _pmPredictionsDomain = pmPredictionsDomain;
             _highsoft = highsoft;
             _neuralNetworkDomain = neuralNetworkDomain;
             _chartObjectDomain = chartObjectDomain;
@@ -48,27 +44,8 @@ namespace DataVisualization.Controllers
         // GET: Charts
         public ActionResult Index()
         {
-            ViewBag.chartsOptions = GetChartsOptions();
 
             return View();
-        }
-
-        private IEnumerable<Highcharts> GetChartsOptions()
-        {
-            var chartsOptions = new List<Highcharts>
-            {
-                _pmPredictionsDomain.GetInputs(),
-                _pmPredictionsDomain.GetBid(),
-                _pmPredictionsDomain.GetAsk(),
-                _pmPredictionsDomain.GetOutput(),
-                _pmPredictionsDomain.GetBusinessResultPpmPerLabel(),
-                _pmPredictionsDomain.GetPredictedBusinessYield(),
-                _pmPredictionsDomain.GetDesiredPredictionsBinary(),
-                _pmPredictionsDomain.GetDesiredPredictionsBinaryHeatmap(),
-                _neuralNetworkDomain.GetNeuralNetworkOptions()
-            };
-
-            return chartsOptions;
         }
 
         [HttpGet]
@@ -77,8 +54,8 @@ namespace DataVisualization.Controllers
             var chartObject = _chartObjectDomain.GetById(id);
             if (chartObject == null)
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Couldn't find chart");
-
-            if(chartObject.Thumbnail == null || chartObject.Thumbnail.Image == null)
+            
+            if (chartObject.Thumbnail == null || chartObject.Thumbnail.Image == null || chartObject.Thumbnail.Image.Length == 0)
             {
                 return File("~/Content/icons/line-chart-96.png", "image/png");
             }
@@ -96,7 +73,7 @@ namespace DataVisualization.Controllers
 
                 var dataToProcess = new ChartDataToProcess(fileModel.File.FileName, fileModel.File.ContentLength);
                 await fileModel.File.InputStream.ReadAsync(dataToProcess.ChartFile, 0, fileModel.File.ContentLength);
-                _chartDataDomain.ProcessFile(dataToProcess, fileModel.CategoryId, fileModel.ChartTitle,fileModel.ConfigId);
+                _chartDataDomain.ProcessFile(dataToProcess, fileModel.CategoryId, fileModel.ChartTitle, fileModel.ConfigId);
 
                 return null;
             }
@@ -116,6 +93,17 @@ namespace DataVisualization.Controllers
             var chartOptionsJson = new HighsoftNamespace().GetJsonOptions(highchartOption).ToString();
 
             return Content(chartOptionsJson, "application/json");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _chartObjectDomain.Dispose();
+                _chartDataDomain.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

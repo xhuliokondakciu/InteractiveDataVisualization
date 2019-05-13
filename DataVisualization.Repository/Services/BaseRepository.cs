@@ -4,11 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 using System.Linq.Dynamic;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace DataVisualization.Repository.Services
 {
@@ -65,7 +62,11 @@ namespace DataVisualization.Repository.Services
 
         public virtual TEntity GetById(TId id)
         {
-            return _entities.Find(id);
+            var entity = _entities.Find(id);
+            context.Entry(entity)?.Reload();
+
+            return entity;
+
         }
 
         public virtual IEnumerable<TEntity> Get(
@@ -123,7 +124,7 @@ namespace DataVisualization.Repository.Services
             query = query.OrderBy(orderBy);
 
             query = query.Skip(skipAmount).Take(takeAmount);
-            
+
             return query.ToList();
         }
 

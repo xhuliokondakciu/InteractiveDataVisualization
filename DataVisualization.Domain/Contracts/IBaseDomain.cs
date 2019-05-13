@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace DataVisualization.Domain.Contracts
 {
-    public interface IBaseDomain<TId,TEntity>
+    public interface IBaseDomain<TId,TEntity> : IDisposable
     {
         IEnumerable<TEntity> GetAll();
 
