@@ -22,7 +22,7 @@
         @foreach (var chartObject in Model.Charts)
         {
             <tr class="chart-object-row" data-chart-object='@Html.Raw(Json.Encode(chartObject))' data-is-category="false" id="chart-@chartObject.Id">
-                <td class="chart-thumbnail-small icon-cell" style="background-image:url('/Chart/@chartObject.Id/Thumbnail')"></td>
+                <td class="chart-thumbnail-small icon-cell" style="background-image:url('@Html.Raw(chartObject.Thumbnail)')"></td>
                 <td class="title-cell" title="@chartObject.Title">@chartObject.Title</td>
                 <td class="description-cell"><small class="crop-text-3">@chartObject.Description</small></td>
             </tr>

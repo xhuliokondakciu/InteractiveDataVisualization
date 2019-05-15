@@ -11,3 +11,4 @@ DataVisualization/ExportedData/
 .hg*
 /DataVisualization/App_Data/DataVisualization.mdf
 /DataVisualization/App_Data/DataVisualization_log.ldf
+/DataVisualization/Content/Thumbnails

@@ -7,13 +7,13 @@ namespace DataVisualization.Context.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class notrequiredprocessorid : IMigrationMetadata
+    public sealed partial class Renaming : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(notrequiredprocessorid));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Renaming));
         
         string IMigrationMetadata.Id
         {
-            get { return "201903042139493_not required processor id"; }
+            get { return "201905150438371_Renaming"; }
         }
         
         string IMigrationMetadata.Source

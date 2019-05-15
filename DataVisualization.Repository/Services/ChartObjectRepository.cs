@@ -35,10 +35,6 @@ namespace DataVisualization.Repository.Services
                 _entities.Attach(chartObject);
             context.Entry(chartObject).State = EntityState.Modified;
 
-            if (context.Entry(chartObject.Thumbnail).State == EntityState.Detached)
-                context.Set<Thumbnail>().Attach(chartObject.Thumbnail);
-            context.Entry(chartObject.Thumbnail).State = EntityState.Modified;
-
             var retVal = Save();
             return chartObject;
         }

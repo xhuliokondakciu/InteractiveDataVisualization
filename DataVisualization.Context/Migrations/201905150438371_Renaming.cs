@@ -3,16 +3,16 @@ namespace DataVisualization.Context.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class DoNotProcessFile : DbMigration
+    public partial class Renaming : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.ChartsConfiguration", "RequiresProcess", c => c.Boolean(nullable: false));
+            RenameTable(name: "dbo.SerieConfiguration", newName: "SeriesConfiguration");
         }
         
         public override void Down()
         {
-            DropColumn("dbo.ChartsConfiguration", "RequiresProcess");
+            RenameTable(name: "dbo.SeriesConfiguration", newName: "SerieConfiguration");
         }
     }
 }

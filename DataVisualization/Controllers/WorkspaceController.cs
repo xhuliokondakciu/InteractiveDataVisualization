@@ -377,6 +377,7 @@ namespace DataVisualization.Controllers
                 CategoryId = chartObject.CategoryId,
                 IsShared = isSharedChartObject,
                 IsEveryones = chartObject.IsEveryones,
+                Thumbnail = chartObject.Thumbnail,
                 AllowedActions = _permissionDomain.GetChartObjectPermissions(chartObject.Id, User.Identity.GetUserId()).Select(c => c.ToString())
             };
         }

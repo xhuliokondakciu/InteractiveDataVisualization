@@ -19,6 +19,8 @@ namespace DataVisualization.Models.Workspace
         public bool IsShared { get; set; }
         public bool IsEveryones { get; set; }
 
+        public string Thumbnail { get; set; }
+
         public IEnumerable<string> AllowedActions { get; set; }
     }
 }

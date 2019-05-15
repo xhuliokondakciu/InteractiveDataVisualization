@@ -14,7 +14,7 @@ namespace DataVisualization.Models.Chart
     {
         protected ChartDataSource() { }
 
-        public ChartDataSource(string timeSerieFilePath, string timeSerieColumn, IEnumerable<SerieConfiguration> series)
+        public ChartDataSource(string timeSerieFilePath, string timeSerieColumn, IEnumerable<SeriesConfiguration> series)
         {
             TimeSerieFilePath = timeSerieFilePath;
             TimeSerieColumn = timeSerieColumn;
@@ -28,7 +28,7 @@ namespace DataVisualization.Models.Chart
 
         public string TimeSerieColumn { get; set; }
         
-        public virtual ICollection<SerieConfiguration> Series { get; set; }
+        public virtual ICollection<SeriesConfiguration> Series { get; set; }
 
         public virtual ChartObject ChartObject { get; set; }
 
@@ -36,7 +36,7 @@ namespace DataVisualization.Models.Chart
         {
             var newFilePath = FileSystemHelper.CreateChartDataDirectory(ChartObject.OwnerId);
             var timeSerieNewPath = CopyTimeSerie(newFilePath);
-            var series = new List<SerieConfiguration>();
+            var series = new List<SeriesConfiguration>();
             foreach(var serie in Series)
             {
                 series.Add(serie.Copy(newFilePath));
@@ -79,7 +79,7 @@ namespace DataVisualization.Models.Chart
                    Id == other.Id &&
                    TimeSerieFilePath == other.TimeSerieFilePath &&
                    TimeSerieColumn == other.TimeSerieColumn &&
-                   EqualityComparer<ICollection<SerieConfiguration>>.Default.Equals(Series, other.Series) &&
+                   EqualityComparer<ICollection<SeriesConfiguration>>.Default.Equals(Series, other.Series) &&
                    EqualityComparer<ChartObject>.Default.Equals(ChartObject, other.ChartObject);
         }
 
@@ -89,7 +89,7 @@ namespace DataVisualization.Models.Chart
             hashCode = hashCode * -1521134295 + Id.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(TimeSerieFilePath);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(TimeSerieColumn);
-            hashCode = hashCode * -1521134295 + EqualityComparer<ICollection<SerieConfiguration>>.Default.GetHashCode(Series);
+            hashCode = hashCode * -1521134295 + EqualityComparer<ICollection<SeriesConfiguration>>.Default.GetHashCode(Series);
             hashCode = hashCode * -1521134295 + EqualityComparer<ChartObject>.Default.GetHashCode(ChartObject);
             return hashCode;
         }
@@ -105,10 +105,10 @@ namespace DataVisualization.Models.Chart
         }
     }
 
-    public class SerieConfiguration : IEquatable<SerieConfiguration>
+    public class SeriesConfiguration : IEquatable<SeriesConfiguration>
     {
-        protected SerieConfiguration() { }
-        public SerieConfiguration(string name, string filePath, string columnName)
+        protected SeriesConfiguration() { }
+        public SeriesConfiguration(string name, string filePath, string columnName)
         {
             Name = name;
             FilePath = filePath;
@@ -121,10 +121,10 @@ namespace DataVisualization.Models.Chart
         public string ColumnName { get; set; }
         public virtual ChartDataSource ChartDataSource { get; set; }
 
-        public SerieConfiguration Copy(string path)
+        public SeriesConfiguration Copy(string path)
         {
             var fileNewPath = CopyFile(path);
-            return new SerieConfiguration(Name, fileNewPath, ColumnName);
+            return new SeriesConfiguration(Name, fileNewPath, ColumnName);
         }
 
         private string CopyFile(string path)
@@ -150,10 +150,10 @@ namespace DataVisualization.Models.Chart
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as SerieConfiguration);
+            return Equals(obj as SeriesConfiguration);
         }
 
-        public bool Equals(SerieConfiguration other)
+        public bool Equals(SeriesConfiguration other)
         {
             return other != null &&
                    Id == other.Id &&
@@ -174,12 +174,12 @@ namespace DataVisualization.Models.Chart
             return hashCode;
         }
 
-        public static bool operator ==(SerieConfiguration configuration1, SerieConfiguration configuration2)
+        public static bool operator ==(SeriesConfiguration configuration1, SeriesConfiguration configuration2)
         {
-            return EqualityComparer<SerieConfiguration>.Default.Equals(configuration1, configuration2);
+            return EqualityComparer<SeriesConfiguration>.Default.Equals(configuration1, configuration2);
         }
 
-        public static bool operator !=(SerieConfiguration configuration1, SerieConfiguration configuration2)
+        public static bool operator !=(SeriesConfiguration configuration1, SeriesConfiguration configuration2)
         {
             return !(configuration1 == configuration2);
         }

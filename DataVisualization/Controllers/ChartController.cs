@@ -44,29 +44,7 @@ namespace DataVisualization.Controllers
 
             return View();
         }
-
-        [HttpGet]
-        public ActionResult Thumbnail(int id)
-        {
-            try
-            {
-                var chartObject = _chartObjectDomain.GetById(id);
-                if (chartObject == null)
-                    return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Couldn't find chart");
-
-                if (chartObject.Thumbnail == null || chartObject.Thumbnail.Image == null || chartObject.Thumbnail.Image.Length == 0)
-                {
-                    return File("~/Content/icons/line-chart-96.png", "image/png");
-                }
-
-                return File(chartObject.Thumbnail.Image, "image/png");
-            }
-            catch (Exception)
-            {
-
-                return File("~/Content/icons/line-chart-96.png", "image/png");
-            }
-        }
+        
 
         [HttpPost]
         public async Task<ActionResult> UploadChartData(ChartFileModel fileModel)

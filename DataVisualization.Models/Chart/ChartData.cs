@@ -8,13 +8,13 @@ namespace DataVisualization.Models.Chart
 {
     public class ChartData : IEquatable<ChartData>
     {
-        public ChartData(string chartName, IEnumerable<ChartSerie> series)
+        public ChartData(string chartName, IEnumerable<ChartSeries> series)
         {
             ChartName = chartName;
             Series = series;
         }
         public string ChartName { get; set; }
-        public IEnumerable<ChartSerie> Series { get; set; }
+        public IEnumerable<ChartSeries> Series { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -25,14 +25,14 @@ namespace DataVisualization.Models.Chart
         {
             return other != null &&
                    ChartName == other.ChartName &&
-                   EqualityComparer<IEnumerable<ChartSerie>>.Default.Equals(Series, other.Series);
+                   EqualityComparer<IEnumerable<ChartSeries>>.Default.Equals(Series, other.Series);
         }
 
         public override int GetHashCode()
         {
             var hashCode = 711225152;
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ChartName);
-            hashCode = hashCode * -1521134295 + EqualityComparer<IEnumerable<ChartSerie>>.Default.GetHashCode(Series);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IEnumerable<ChartSeries>>.Default.GetHashCode(Series);
             return hashCode;
         }
 
@@ -46,9 +46,9 @@ namespace DataVisualization.Models.Chart
             return !(data1 == data2);
         }
     }
-    public class ChartSerie : IEquatable<ChartSerie>
+    public class ChartSeries : IEquatable<ChartSeries>
     {
-        public ChartSerie(string name, ChartPoint[] points)
+        public ChartSeries(string name, ChartPoint[] points)
         {
             Name = name;
             Points = points;
@@ -58,10 +58,10 @@ namespace DataVisualization.Models.Chart
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as ChartSerie);
+            return Equals(obj as ChartSeries);
         }
 
-        public bool Equals(ChartSerie other)
+        public bool Equals(ChartSeries other)
         {
             return other != null &&
                    Name == other.Name &&
@@ -76,12 +76,12 @@ namespace DataVisualization.Models.Chart
             return hashCode;
         }
 
-        public static bool operator ==(ChartSerie serie1, ChartSerie serie2)
+        public static bool operator ==(ChartSeries serie1, ChartSeries serie2)
         {
-            return EqualityComparer<ChartSerie>.Default.Equals(serie1, serie2);
+            return EqualityComparer<ChartSeries>.Default.Equals(serie1, serie2);
         }
 
-        public static bool operator !=(ChartSerie serie1, ChartSerie serie2)
+        public static bool operator !=(ChartSeries serie1, ChartSeries serie2)
         {
             return !(serie1 == serie2);
         }

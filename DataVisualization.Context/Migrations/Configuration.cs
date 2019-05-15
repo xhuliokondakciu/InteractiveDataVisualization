@@ -169,22 +169,6 @@ namespace DataVisualization.Context.Migrations
             });
 
             context.SaveChanges();
-
-            AddChartImage(context);
-        }
-
-        private void AddChartImage(VisContext context)
-        {
-            var chart1 = context.ChartObjects.ToList().ElementAt(0);
-            chart1.Thumbnail = new Thumbnail();
-            chart1.Thumbnail.SetThumbnailImage(@"C:\Users\Xhulio\source\Diploma\mlguiplayground\DataVisualization\Content\icons\line-chart-96.png");
-            context.ChartObjects.AddOrUpdate(chart1);
-
-            var chart2 = context.ChartObjects.ToList().ElementAt(1);
-            chart2.Thumbnail = new Thumbnail();
-            chart2.Thumbnail.SetThumbnailImage(@"C:\Users\Xhulio\source\Diploma\mlguiplayground\DataVisualization\Content\icons\line-chart-96.png");
-            context.ChartObjects.AddOrUpdate(chart2);
-            context.SaveChanges();
         }
 
         private void CreateUsers(VisContext context)

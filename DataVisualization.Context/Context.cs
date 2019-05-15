@@ -40,10 +40,10 @@ namespace DataVisualization.Context
                 .HasForeignKey(c => c.OwnerId)
                 .WillCascadeOnDelete(true);
 
-            modelBuilder.Entity<ChartObject>()
-                .HasRequired(co => co.Thumbnail)
-                .WithRequiredPrincipal(t => t.ChartObject)
-                .WillCascadeOnDelete(true);
+            //modelBuilder.Entity<ChartObject>()
+            //    .HasRequired(co => co.Thumbnail)
+            //    .WithRequiredPrincipal(t => t.ChartObject)
+            //    .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<ChartObject>()
                 .HasOptional(co => co.ChartDataSource)

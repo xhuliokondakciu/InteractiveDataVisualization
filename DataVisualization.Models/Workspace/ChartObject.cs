@@ -60,7 +60,7 @@ namespace DataVisualization.Models.Workspace
         }
 
         [JsonIgnore]
-        public virtual Thumbnail Thumbnail { get; set; }
+        public string  Thumbnail { get; set; }
 
         public ChartObject Copy(string ownerId)
         {
@@ -69,7 +69,7 @@ namespace DataVisualization.Models.Workspace
                 Title = Title,
                 Description = Description,
                 OwnerId = ownerId,
-                Thumbnail = Thumbnail?.Copy(),
+                Thumbnail = Thumbnail,
                 ChartDataSource = ChartDataSource?.Copy()
             };
         }
@@ -82,7 +82,7 @@ namespace DataVisualization.Models.Workspace
                 Description = Description,
                 CategoryId = newCategoryId,
                 OwnerId = ownerId,
-                Thumbnail = Thumbnail?.Copy(),
+                Thumbnail = Thumbnail,
                 ChartDataSource = ChartDataSource?.Copy()
             };
         }
@@ -101,8 +101,7 @@ namespace DataVisualization.Models.Workspace
                    CategoryId == other.CategoryId &&
                    OwnerId == other.OwnerId &&
                    EqualityComparer<ChartDataSource>.Default.Equals(ChartDataSource, other.ChartDataSource) &&
-                   IsEveryones == other.IsEveryones &&
-                   EqualityComparer<Thumbnail>.Default.Equals(Thumbnail, other.Thumbnail);
+                   IsEveryones == other.IsEveryones;
         }
 
         public override int GetHashCode()
@@ -115,7 +114,6 @@ namespace DataVisualization.Models.Workspace
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(OwnerId);
             hashCode = hashCode * -1521134295 + EqualityComparer<ChartDataSource>.Default.GetHashCode(ChartDataSource);
             hashCode = hashCode * -1521134295 + IsEveryones.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<Thumbnail>.Default.GetHashCode(Thumbnail);
             return hashCode;
         }
 
@@ -127,95 +125,6 @@ namespace DataVisualization.Models.Workspace
         public static bool operator !=(ChartObject left, ChartObject right)
         {
             return !(left == right);
-        }
-    }
-
-    public class Thumbnail : IEquatable<Thumbnail>
-    {
-        public Thumbnail() { }
-
-        public Thumbnail(string path)
-        {
-            SetThumbnailImage(path);
-        }
-
-        [Key,ForeignKey("ChartObject")]
-        public int Id { get; set; }
-
-        public virtual ChartObject ChartObject { get; set; }
-
-        public byte[] Image { get; set; }
-
-
-        public Thumbnail Copy()
-        {
-            return new Thumbnail
-            {
-                Image = (byte[])Image.Clone()
-            };
-        }
-
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as Thumbnail);
-        }
-
-        public bool Equals(Thumbnail other)
-        {
-            return other != null &&
-                   Id == other.Id &&
-                   EqualityComparer<ChartObject>.Default.Equals(ChartObject, other.ChartObject) &&
-                   EqualityComparer<byte[]>.Default.Equals(Image, other.Image);
-        }
-
-        public override int GetHashCode()
-        {
-            var hashCode = 1011406607;
-            hashCode = hashCode * -1521134295 + Id.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<ChartObject>.Default.GetHashCode(ChartObject);
-            hashCode = hashCode * -1521134295 + EqualityComparer<byte[]>.Default.GetHashCode(Image);
-            return hashCode;
-        }
-
-        public Image GetThumbnailImage()
-        {
-            using (MemoryStream ms = new MemoryStream(Image))
-            {
-                Image thumbnailImage = System.Drawing.Image.FromStream(ms);
-                return thumbnailImage;
-            }
-
-        }
-
-        public void SetThumbnailImage(Image thumbnailImage)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                thumbnailImage.Save(ms, ImageFormat.Png);
-                Image = ms.ToArray();
-            }
-        }
-
-        public void SetThumbnailImage(string imagePath)
-        {
-            var thumbnailImage = System.Drawing.Image.FromFile(imagePath);
-            using (MemoryStream ms = new MemoryStream())
-            {
-                thumbnailImage.Save(ms, ImageFormat.Png);
-                Image = ms.ToArray();
-            }
-
-            thumbnailImage.Dispose();
-        }
-
-        public static bool operator ==(Thumbnail thumbnail1, Thumbnail thumbnail2)
-        {
-            return EqualityComparer<Thumbnail>.Default.Equals(thumbnail1, thumbnail2);
-        }
-
-        public static bool operator !=(Thumbnail thumbnail1, Thumbnail thumbnail2)
-        {
-            return !(thumbnail1 == thumbnail2);
         }
     }
 }

@@ -82,7 +82,7 @@ namespace DataVisualization.Domain.Factories
             }
         }
 
-        private static Highcharts CreateLineChartOptions(IEnumerable<ChartSerie> series, string chartTitle,ChartsConfigSchemaChartChartTypeValue chartType)
+        private static Highcharts CreateLineChartOptions(IEnumerable<ChartSeries> series, string chartTitle,ChartsConfigSchemaChartChartTypeValue chartType)
         {
             var lineSeries = series.Select(s =>
             {
@@ -191,7 +191,7 @@ namespace DataVisualization.Domain.Factories
                     chartPoints[i] = new ChartPoint(xCsvColumn.Values[i], yValues.Values[i]);
                 }
 
-                return new ChartSerie(serie.Name, chartPoints);
+                return new ChartSeries(serie.Name, chartPoints);
             });
 
             return CreateLineChartOptions(series, dataSource?.ChartObject?.Title ?? "",dataSource.ChartObject.ChartType);

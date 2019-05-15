@@ -3,7 +3,7 @@ namespace DataVisualization.Context.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class MGChartsConfiguration : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
@@ -34,6 +34,8 @@ namespace DataVisualization.Context.Migrations
                         Description = c.String(),
                         CategoryId = c.Int(nullable: false),
                         OwnerId = c.String(maxLength: 128),
+                        ChartType = c.Int(nullable: false),
+                        Thumbnail = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Category", t => t.CategoryId, cascadeDelete: true)
@@ -95,26 +97,26 @@ namespace DataVisualization.Context.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(),
-                        ProcessorId = c.Int(nullable: false),
-                        ConfigurationXml = c.String(storeType: "xml"),
-                        UserId = c.Int(nullable: false),
+                        Title = c.String(nullable: false),
+                        ProcessorId = c.Int(),
+                        ConfigurationXml = c.String(nullable: false, storeType: "xml"),
+                        UserId = c.String(nullable: false, maxLength: 128),
                         IsSystem = c.Boolean(nullable: false),
-                        User_Id = c.String(maxLength: 128),
+                        RequiresProcess = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.ProcessorConfiguration", t => t.ProcessorId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
+                .ForeignKey("dbo.ProcessorConfiguration", t => t.ProcessorId)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.ProcessorId)
-                .Index(t => t.User_Id);
+                .Index(t => t.UserId);
             
             CreateTable(
                 "dbo.ProcessorConfiguration",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
-                        Path = c.String(),
+                        Name = c.String(nullable: false),
+                        Path = c.String(nullable: false),
                         ExtraParameters = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
@@ -131,6 +133,30 @@ namespace DataVisualization.Context.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.JobStatus",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        UserFileName = c.String(),
+                        SystemFileName = c.String(),
+                        ChartDataDirectory = c.String(),
+                        Status = c.Int(nullable: false),
+                        HangfireJobId = c.String(),
+                        JobOutput = c.String(),
+                        UserNotified = c.Boolean(nullable: false),
+                        ChartsConfigId = c.Int(nullable: false),
+                        UserCreatorId = c.String(nullable: false, maxLength: 128),
+                        StartTime = c.DateTimeOffset(precision: 7),
+                        EndTime = c.DateTimeOffset(precision: 7),
+                        JobFinishTime = c.DateTimeOffset(nullable: false, precision: 7),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.ChartsConfiguration", t => t.ChartsConfigId)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserCreatorId, cascadeDelete: true)
+                .Index(t => t.ChartsConfigId)
+                .Index(t => t.UserCreatorId);
             
             CreateTable(
                 "dbo.AspNetUserLogins",
@@ -158,40 +184,6 @@ namespace DataVisualization.Context.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
-                "dbo.Thumbnail",
-                c => new
-                    {
-                        Id = c.Int(nullable: false),
-                        Image = c.Binary(),
-                        IsCreated = c.Boolean(nullable: false),
-                        CreationError = c.String(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.ChartObject", t => t.Id, cascadeDelete: true)
-                .Index(t => t.Id);
-            
-            CreateTable(
-                "dbo.JobStatus",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        UserFileName = c.String(),
-                        SystemFileName = c.String(),
-                        ChartDataDirectory = c.String(),
-                        Status = c.Int(nullable: false),
-                        JobId = c.String(),
-                        JobOutput = c.String(),
-                        UserNotified = c.Boolean(nullable: false),
-                        UserCreatorId = c.String(maxLength: 128),
-                        StartTime = c.DateTimeOffset(precision: 7),
-                        EndTime = c.DateTimeOffset(precision: 7),
-                        JobFinishTime = c.DateTimeOffset(nullable: false, precision: 7),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserCreatorId)
-                .Index(t => t.UserCreatorId);
-            
-            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -206,28 +198,28 @@ namespace DataVisualization.Context.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.JobStatus", "UserCreatorId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.ChartDataSource", "JobStatus_Id", "dbo.JobStatus");
             DropForeignKey("dbo.Category", "OwnerId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Category", "ParentCategoryId", "dbo.Category");
-            DropForeignKey("dbo.Thumbnail", "Id", "dbo.ChartObject");
             DropForeignKey("dbo.ChartObject", "OwnerId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.JobStatus", "UserCreatorId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.JobStatus", "ChartsConfigId", "dbo.ChartsConfiguration");
+            DropForeignKey("dbo.ChartDataSource", "JobStatus_Id", "dbo.JobStatus");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.ChartsConfiguration", "User_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.ChartsConfiguration", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.ChartsConfiguration", "ProcessorId", "dbo.ProcessorConfiguration");
             DropForeignKey("dbo.ChartDataSource", "Id", "dbo.ChartObject");
             DropForeignKey("dbo.SerieConfiguration", "ChartDataSource_Id", "dbo.ChartDataSource");
             DropForeignKey("dbo.ChartObject", "CategoryId", "dbo.Category");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.JobStatus", new[] { "UserCreatorId" });
-            DropIndex("dbo.Thumbnail", new[] { "Id" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
+            DropIndex("dbo.JobStatus", new[] { "UserCreatorId" });
+            DropIndex("dbo.JobStatus", new[] { "ChartsConfigId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
-            DropIndex("dbo.ChartsConfiguration", new[] { "User_Id" });
+            DropIndex("dbo.ChartsConfiguration", new[] { "UserId" });
             DropIndex("dbo.ChartsConfiguration", new[] { "ProcessorId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.SerieConfiguration", new[] { "ChartDataSource_Id" });
@@ -238,10 +230,9 @@ namespace DataVisualization.Context.Migrations
             DropIndex("dbo.Category", new[] { "OwnerId" });
             DropIndex("dbo.Category", new[] { "ParentCategoryId" });
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.JobStatus");
-            DropTable("dbo.Thumbnail");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
+            DropTable("dbo.JobStatus");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.ProcessorConfiguration");
             DropTable("dbo.ChartsConfiguration");

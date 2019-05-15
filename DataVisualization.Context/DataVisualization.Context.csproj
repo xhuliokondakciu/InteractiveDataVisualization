@@ -59,69 +59,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context.cs" />
-    <Compile Include="Migrations\201901232113524_MGChartsConfiguration.cs" />
-    <Compile Include="Migrations\201901232113524_MGChartsConfiguration.Designer.cs">
-      <DependentUpon>201901232113524_MGChartsConfiguration.cs</DependentUpon>
+    <Compile Include="Migrations\201905150314341_initial.cs" />
+    <Compile Include="Migrations\201905150314341_initial.Designer.cs">
+      <DependentUpon>201905150314341_initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201901232301345_dontknowwhy.cs" />
-    <Compile Include="Migrations\201901232301345_dontknowwhy.Designer.cs">
-      <DependentUpon>201901232301345_dontknowwhy.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901262039255_changesuseridtostring.cs" />
-    <Compile Include="Migrations\201901262039255_changesuseridtostring.Designer.cs">
-      <DependentUpon>201901262039255_changesuseridtostring.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901262131118_dontknowwhatchanged.cs" />
-    <Compile Include="Migrations\201901262131118_dontknowwhatchanged.Designer.cs">
-      <DependentUpon>201901262131118_dontknowwhatchanged.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901270039252_chartsconfiginjobstatus.cs" />
-    <Compile Include="Migrations\201901270039252_chartsconfiginjobstatus.Designer.cs">
-      <DependentUpon>201901270039252_chartsconfiginjobstatus.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901292050125_updatetothumbnail.cs" />
-    <Compile Include="Migrations\201901292050125_updatetothumbnail.Designer.cs">
-      <DependentUpon>201901292050125_updatetothumbnail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902052049299_hangfirevariablechange.cs" />
-    <Compile Include="Migrations\201902052049299_hangfirevariablechange.Designer.cs">
-      <DependentUpon>201902052049299_hangfirevariablechange.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903042103463_DoNotProcessFile.cs" />
-    <Compile Include="Migrations\201903042103463_DoNotProcessFile.Designer.cs">
-      <DependentUpon>201903042103463_DoNotProcessFile.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903042137013_optional processor id.cs" />
-    <Compile Include="Migrations\201903042137013_optional processor id.Designer.cs">
-      <DependentUpon>201903042137013_optional processor id.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903042139493_not required processor id.cs" />
-    <Compile Include="Migrations\201903042139493_not required processor id.Designer.cs">
-      <DependentUpon>201903042139493_not required processor id.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903060333321_cascade delete charts configurations.cs" />
-    <Compile Include="Migrations\201903060333321_cascade delete charts configurations.Designer.cs">
-      <DependentUpon>201903060333321_cascade delete charts configurations.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903140022179_table rename.cs" />
-    <Compile Include="Migrations\201903140022179_table rename.Designer.cs">
-      <DependentUpon>201903140022179_table rename.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904031829429_configurable chart tyhpe.cs" />
-    <Compile Include="Migrations\201904031829429_configurable chart tyhpe.Designer.cs">
-      <DependentUpon>201904031829429_configurable chart tyhpe.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904081454019_job status cascade non.cs" />
-    <Compile Include="Migrations\201904081454019_job status cascade non.Designer.cs">
-      <DependentUpon>201904081454019_job status cascade non.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904081513273_job status cascade.cs" />
-    <Compile Include="Migrations\201904081513273_job status cascade.Designer.cs">
-      <DependentUpon>201904081513273_job status cascade.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904250317242_namechange.cs" />
-    <Compile Include="Migrations\201904250317242_namechange.Designer.cs">
-      <DependentUpon>201904250317242_namechange.cs</DependentUpon>
+    <Compile Include="Migrations\201905150438371_Renaming.cs" />
+    <Compile Include="Migrations\201905150438371_Renaming.Designer.cs">
+      <DependentUpon>201905150438371_Renaming.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -141,53 +85,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201901232113524_MGChartsConfiguration.resx">
-      <DependentUpon>201901232113524_MGChartsConfiguration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201905150314341_initial.resx">
+      <DependentUpon>201905150314341_initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901232301345_dontknowwhy.resx">
-      <DependentUpon>201901232301345_dontknowwhy.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901262039255_changesuseridtostring.resx">
-      <DependentUpon>201901262039255_changesuseridtostring.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901262131118_dontknowwhatchanged.resx">
-      <DependentUpon>201901262131118_dontknowwhatchanged.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901270039252_chartsconfiginjobstatus.resx">
-      <DependentUpon>201901270039252_chartsconfiginjobstatus.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901292050125_updatetothumbnail.resx">
-      <DependentUpon>201901292050125_updatetothumbnail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902052049299_hangfirevariablechange.resx">
-      <DependentUpon>201902052049299_hangfirevariablechange.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903042103463_DoNotProcessFile.resx">
-      <DependentUpon>201903042103463_DoNotProcessFile.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903042137013_optional processor id.resx">
-      <DependentUpon>201903042137013_optional processor id.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903042139493_not required processor id.resx">
-      <DependentUpon>201903042139493_not required processor id.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903060333321_cascade delete charts configurations.resx">
-      <DependentUpon>201903060333321_cascade delete charts configurations.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903140022179_table rename.resx">
-      <DependentUpon>201903140022179_table rename.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904031829429_configurable chart tyhpe.resx">
-      <DependentUpon>201904031829429_configurable chart tyhpe.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904081454019_job status cascade non.resx">
-      <DependentUpon>201904081454019_job status cascade non.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904081513273_job status cascade.resx">
-      <DependentUpon>201904081513273_job status cascade.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904250317242_namechange.resx">
-      <DependentUpon>201904250317242_namechange.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201905150438371_Renaming.resx">
+      <DependentUpon>201905150438371_Renaming.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

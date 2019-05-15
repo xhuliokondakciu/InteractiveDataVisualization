@@ -1,7 +1,7 @@
 ﻿@model DataVisualization.Models.Workspace.ChartObjectModel
 
 <div class="card chart-object-card d-block" id="chart-@Model.Id" title="@Model.Description" data-chart-object='@Html.Raw(Json.Encode(Model))' data-is-category="false">
-    <div class="card-body p-0 chart-thumbnail-big" style="background-image:url('/Chart/@Model.Id/Thumbnail')">
+    <div class="card-body p-0 chart-thumbnail-big" style="background-image:url('@Html.Raw(@Model.Thumbnail)')">
     </div>
     <div class="card-footer crop-text-3" title="@Model.Title">
         <small>@Model.Title</small>

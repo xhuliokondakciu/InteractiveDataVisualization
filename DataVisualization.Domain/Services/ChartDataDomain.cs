@@ -342,11 +342,11 @@ namespace DataVisualization.Domain.Services
                     timeSeriesFilePath = Path.Combine(jobStatus.ChartDataDirectory, jobStatus.SystemFileName);
                 }
                 var timeSeriesColumn = chartsConfig.TimeSeries.ColumnName;
-                List<SerieConfiguration> series;
+                List<SeriesConfiguration> series;
                 if (jobStatus.ChartsConfig.RequiresProcess)
                 {
                     series = chart.SeriesList.Select(s =>
-                        new SerieConfiguration(
+                        new SeriesConfiguration(
                             s.SeriesName,
                             Path.Combine(jobStatus.ChartDataDirectory, s.FileName),
                             s.ColumnName)).ToList();
@@ -354,7 +354,7 @@ namespace DataVisualization.Domain.Services
                 else
                 {
                     series = chart.SeriesList.Select(s =>
-                        new SerieConfiguration(
+                        new SeriesConfiguration(
                             s.SeriesName,
                             Path.Combine(jobStatus.ChartDataDirectory, jobStatus.SystemFileName),
                             s.ColumnName)).ToList();
@@ -368,8 +368,7 @@ namespace DataVisualization.Domain.Services
                 };
 
                 //Set default thumbnail
-                chartObject.Thumbnail = new Thumbnail();
-                chartObject.Thumbnail.SetThumbnailImage(Path.Combine(projectRootPath, "Content", "icons", "line-chart-96.png"));
+                chartObject.Thumbnail ="/Content/icons/line-chart-96.png";
 
                 chartObjects.Add(chartObject);
             }
@@ -397,15 +396,16 @@ namespace DataVisualization.Domain.Services
             {
                 var chart = _chartObjectDomain.GetById(chartId);
                 if (chart == null) continue;
-                var tempPath = Path.Combine(projectRootPath, "TempChartThumbnails");
-                if (!Directory.Exists(tempPath))
+                var basePath = Path.Combine("Content/Thumbnails", chart.Id.ToString());
+                var thumbPath = Path.Combine(projectRootPath, basePath);
+                if (!Directory.Exists(thumbPath))
                 {
-                    Directory.CreateDirectory(tempPath);
+                    Directory.CreateDirectory(thumbPath);
                 }
 
-                var thumbName = CreateTempChartImageName(chart.Id);
-                var thumbImgPath = Path.Combine(tempPath, thumbName + ".png");
-                var thumbConfigPath = Path.Combine(tempPath, thumbName + ".json");
+                var thumbName = Guid.NewGuid().ToString() + ".png";
+                var thumbImgPath = Path.Combine(thumbPath, thumbName);
+                var thumbConfigPath = Path.Combine(thumbPath, thumbName + ".json");
 
                 try
                 {
@@ -424,8 +424,7 @@ namespace DataVisualization.Domain.Services
                         }
                         if (process.ExitCode == 0 && File.Exists(thumbImgPath))
                         {
-                            chart.Thumbnail = new Thumbnail();
-                            chart.Thumbnail.SetThumbnailImage(thumbImgPath);
+                            chart.Thumbnail = "/" + Path.Combine(basePath,thumbName).Replace("\\","/");
                             _chartObjectDomain.Update(chart);
                         }
                         else
@@ -437,18 +436,6 @@ namespace DataVisualization.Domain.Services
                 catch (Exception e)
                 {
                     _logger.Error(e);
-                }
-                finally
-                {
-                    if (File.Exists(thumbImgPath))
-                    {
-                        File.Delete(thumbImgPath);
-                    }
-
-                    if (File.Exists(thumbConfigPath))
-                    {
-                        File.Delete(thumbConfigPath);
-                    }
                 }
             }
         }
