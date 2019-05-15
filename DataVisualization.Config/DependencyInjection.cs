@@ -25,7 +25,6 @@ namespace DataVisualization.Config
         private static void RegisterDomains(IUnityContainer container)
         {
             container.RegisterType<IHighChartsDomain, HighChartsDomain>();
-            container.RegisterType<INeuralNetworkDomain, NeuralNetworkDomain>();
             container.RegisterType<ICategoryDomain, CategoryDomain>();
             container.RegisterType<IChartObjectDomain, ChartObjectDomain>();
             container.RegisterType<IPermissionDomain, PermissionDomain>();
@@ -58,7 +57,7 @@ namespace DataVisualization.Config
         private static void RegisterDbContext(IUnityContainer container)
         {
             container.RegisterType<DbContext, VisContext>(new HierarchicalLifetimeManager());
-            container.RegisterType<VisContext>();
+            //container.RegisterType<VisContext>();
         }
     }
 }

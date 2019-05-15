@@ -368,6 +368,7 @@ namespace DataVisualization.Domain.Services
                 };
 
                 //Set default thumbnail
+                chartObject.Thumbnail = new Thumbnail();
                 chartObject.Thumbnail.SetThumbnailImage(Path.Combine(projectRootPath, "Content", "icons", "line-chart-96.png"));
 
                 chartObjects.Add(chartObject);
@@ -423,6 +424,7 @@ namespace DataVisualization.Domain.Services
                         }
                         if (process.ExitCode == 0 && File.Exists(thumbImgPath))
                         {
+                            chart.Thumbnail = new Thumbnail();
                             chart.Thumbnail.SetThumbnailImage(thumbImgPath);
                             _chartObjectDomain.Update(chart);
                         }

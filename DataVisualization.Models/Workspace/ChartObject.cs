@@ -20,7 +20,6 @@ namespace DataVisualization.Models.Workspace
         public ChartObject(string title)
         {
             Title = title;
-            Thumbnail = new Thumbnail();
         }
 
         public ChartObject(string title,string description) : this(title)

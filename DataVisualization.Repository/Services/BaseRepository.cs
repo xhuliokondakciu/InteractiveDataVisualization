@@ -63,7 +63,6 @@ namespace DataVisualization.Repository.Services
         public virtual TEntity GetById(TId id)
         {
             var entity = _entities.Find(id);
-            context.Entry(entity)?.Reload();
 
             return entity;
 

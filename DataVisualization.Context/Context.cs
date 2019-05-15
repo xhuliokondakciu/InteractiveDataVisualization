@@ -13,7 +13,6 @@ namespace DataVisualization.Context
     {
         public VisContext() : base("DefaultConnection")
         {
-
         }
 
         public DbSet<Category> Categories { get; set; }

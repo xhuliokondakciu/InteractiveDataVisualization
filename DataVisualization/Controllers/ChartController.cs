@@ -18,7 +18,6 @@ namespace DataVisualization.Controllers
     [CustomErrorHandle]
     public class ChartController : BaseController
     {
-        private readonly INeuralNetworkDomain _neuralNetworkDomain;
         private readonly HighsoftNamespace _highsoft;
         private readonly IChartObjectDomain _chartObjectDomain;
         public readonly IChartDataDomain _chartDataDomain;
@@ -27,14 +26,12 @@ namespace DataVisualization.Controllers
 
         public ChartController(
             HighsoftNamespace highsoft,
-            INeuralNetworkDomain neuralNetworkDomain,
             IChartObjectDomain chartObjectDomain,
             IChartDataDomain chartDataDomain,
             ChartHubManager chartHubManager,
             ILogger logger)
         {
             _highsoft = highsoft;
-            _neuralNetworkDomain = neuralNetworkDomain;
             _chartObjectDomain = chartObjectDomain;
             _chartDataDomain = chartDataDomain;
             _chartHubManager = chartHubManager;
@@ -51,16 +48,24 @@ namespace DataVisualization.Controllers
         [HttpGet]
         public ActionResult Thumbnail(int id)
         {
-            var chartObject = _chartObjectDomain.GetById(id);
-            if (chartObject == null)
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Couldn't find chart");
-            
-            if (chartObject.Thumbnail == null || chartObject.Thumbnail.Image == null || chartObject.Thumbnail.Image.Length == 0)
+            try
             {
+                var chartObject = _chartObjectDomain.GetById(id);
+                if (chartObject == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Couldn't find chart");
+
+                if (chartObject.Thumbnail == null || chartObject.Thumbnail.Image == null || chartObject.Thumbnail.Image.Length == 0)
+                {
+                    return File("~/Content/icons/line-chart-96.png", "image/png");
+                }
+
+                return File(chartObject.Thumbnail.Image, "image/png");
+            }
+            catch (Exception)
+            {
+
                 return File("~/Content/icons/line-chart-96.png", "image/png");
             }
-
-            return File(chartObject.Thumbnail.Image, "image/png");
         }
 
         [HttpPost]

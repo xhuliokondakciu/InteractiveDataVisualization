@@ -123,10 +123,8 @@
     <Compile Include="Services\ChartObjectDomain.cs" />
     <Compile Include="Services\HighChartsDomain.cs" />
     <Compile Include="Contracts\IHighChartsDomain.cs" />
-    <Compile Include="Contracts\INeuralNetworkDomain.cs" />
     <Compile Include="Services\ChartsConfigurationDomain.cs" />
     <Compile Include="Services\JobDomain.cs" />
-    <Compile Include="Services\NeuralNetworkDomain.cs" />
     <Compile Include="Services\PermissionDomain.cs" />
     <Compile Include="Services\ProcessorConfigurationDomain.cs" />
     <Compile Include="Services\RoleDomain.cs" />
