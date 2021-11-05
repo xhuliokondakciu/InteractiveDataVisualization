@@ -1,6 +1,6 @@
 # DataVisualization
 
-This is the Master Thesis project of Xhulio Kondakciu. This application creates a dynamic interactive interface for displaying different set of charts and graphs. The purpose is to display, in an interactive way, data of Deep Neural Networks for time series.
+This application creates a dynamic interactive interface for displaying different set of charts and graphs. The purpose is to display, in an interactive way, data of Deep Neural Networks for time series.
 
 ## Getting Started
 
